@@ -27,7 +27,7 @@ const todo = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3A3737",
-    minHeight: hp("5%"),
+    minHeight: 50,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
