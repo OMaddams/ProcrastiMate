@@ -19,6 +19,13 @@ const todoContainer = () => {
       <Todo />
       <Todo />
       <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
     </ScrollView>
   );
 };

@@ -22,7 +22,6 @@
 
     "react-native-responsive-screen": "^1.4.2",
 
-
     "react-native-web": "~0.19.6"
   },
   "devDependencies": {
