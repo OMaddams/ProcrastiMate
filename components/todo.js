@@ -1,5 +1,9 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 const todo = () => {
   return (
     <View style={styles.container}>
@@ -18,13 +22,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
+    width: wp("90%"),
     borderTopLeftRadius: 5,
     borderBottomLeftRadius: 5,
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
     paddingHorizontal: 10,
-    marginTop: 15,
+    marginTop: hp("2%"),
   },
   text: {
     color: "#BD8904",
