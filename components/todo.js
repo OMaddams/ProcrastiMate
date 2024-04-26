@@ -23,6 +23,8 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
     borderTopRightRadius: 25,
     borderBottomRightRadius: 25,
+    paddingHorizontal: 10,
+    marginTop: 15,
   },
   text: {
     color: "#BD8904",

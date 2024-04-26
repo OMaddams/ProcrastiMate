@@ -1,23 +1,35 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Todo from "./todo";
 
-const todoCopntainer = () => {
+const todoContainer = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Todo />
-    </View>
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+      <Todo />
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#3A3737",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
+    // display: "flex",
+    // flexDirection: "column",
+    // justifyContent: "center",
     width: "100%",
-    padding: "5px",
+    marginTop: 15,
+    overflow: "scroll",
   },
   text: {
     color: "#BD8904",
