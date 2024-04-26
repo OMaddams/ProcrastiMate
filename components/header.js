@@ -1,5 +1,9 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const header = () => {
   return (
@@ -18,7 +22,7 @@ const header = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#252121",
-    height: 150,
+    height: hp("15%"),
     width: "100%",
     borderBottomColor: "#BD8904",
     borderBottomWidth: 2,
@@ -30,19 +34,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: 65,
+    marginLeft: wp("15%"),
   },
   image: {
-    marginTop: 20,
-    width: 210,
-    height: 50,
+    marginTop: hp("3%"),
+    width: wp("50%"),
+    height: hp("5.5%"),
   },
 
   settingsIcon: {
-    marginRight: 25,
-    marginTop: 15,
-    width: 50,
-    height: 50,
+    marginRight: wp("5%"),
+    marginTop: hp("3"),
+    width: wp("10%"),
+    height: hp("5%"),
   },
 });
 export default header;
