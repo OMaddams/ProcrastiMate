@@ -4,15 +4,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import {
-  useFonts,
-  Inter_900Black,
-  Inter_500Medium,
-} from "@expo-google-fonts/inter";
+
+import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
 const todo = () => {
   let [fontsLoaded] = useFonts({
-    Inter_900Black,
     Inter_500Medium,
   });
 
