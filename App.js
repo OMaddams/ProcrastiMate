@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import TodoContainer from "./components/todoContainer";
+import Footer from "./components/Footer";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -16,6 +17,7 @@ export default function App() {
 
       <TodoContainer todoOpen={todoOpen} />
       <StatusBar style="auto" />
+      <Footer />
     </View>
   );
 }
