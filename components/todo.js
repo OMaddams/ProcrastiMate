@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Text, Image } from "react-native";
+import { StyleSheet, View, Text, Image, Pressable } from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -16,18 +16,20 @@ const todo = () => {
     return null;
   }
   return (
-    <View style={styles.container}>
-      <Image source={require("../assets/UnPinned.png")} />
-      <Text style={styles.text}>TODO</Text>
-      <Image source={require("../assets/CompletionMark.png")} />
-    </View>
+    <Pressable>
+      <View style={styles.container}>
+        <Image source={require("../assets/UnPinned.png")} />
+        <Text style={styles.text}>TODO</Text>
+        <Image source={require("../assets/CompletionMark.png")} />
+      </View>
+    </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3A3737",
-    minHeight: hp("5%"),
+    minHeight: 50,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -39,6 +41,15 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 25,
     paddingHorizontal: 10,
     marginTop: hp("2%"),
+    shadowColor: "#fff",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+
+    elevation: 13,
   },
   text: {
     color: "#BD8904",

@@ -5,13 +5,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-
 import Header from "./components/header";
+import { useState } from "react";
 export default function App() {
+  const [todoOpen, setTodoOpen] = useState(null);
+
   return (
     <View style={styles.container}>
       <Header />
-      <TodoContainer />
+
+      <TodoContainer todoOpen={todoOpen} />
       <StatusBar style="auto" />
     </View>
   );
