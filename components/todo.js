@@ -1,10 +1,25 @@
 import React from "react";
 import { StyleSheet, View, Text, Image } from "react-native";
 import {
+
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+
+  useFonts,
+  Inter_900Black,
+  Inter_500Medium,
+} from "@expo-google-fonts/inter";
+
 const todo = () => {
+  let [fontsLoaded] = useFonts({
+    Inter_900Black,
+    Inter_500Medium,
+  });
+
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
     <View style={styles.container}>
       <Image source={require("../assets/UnPinned.png")} />
@@ -33,6 +48,7 @@ const styles = StyleSheet.create({
   text: {
     color: "#BD8904",
     fontSize: 18,
+    fontFamily: "Inter_500Medium",
   },
 });
 
