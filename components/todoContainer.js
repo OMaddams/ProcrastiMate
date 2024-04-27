@@ -3,30 +3,13 @@ import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Todo from "./todo";
 import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
-const todoContainer = (props) => {
-  if (props.todoOpen === null) {
+const todoContainer = ({ todos, todoOpen }) => {
+  if (todoOpen === null) {
     return (
       <ScrollView contentContainerStyle={styles.container}>
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
-        <Todo />
+        {todos.map((todo) => (
+          <Todo key={todo.id} title={todo.title} />
+        ))}
       </ScrollView>
     );
   } else {

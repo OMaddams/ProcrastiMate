@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, View, Text, Image, Pressable } from "react-native";
+import { StyleSheet, View, Text, Pressable } from "react-native";
+import { Image } from "expo-image";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,22 +8,26 @@ import {
 
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
-const todo = () => {
+const todo = (todo) => {
+  console.log(todo.title);
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
   });
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || todo == null) {
     return null;
   }
   return (
-    <Pressable>
-      <View style={styles.container}>
-        <Image source={require("../assets/UnPinned.png")} />
-        <Text style={styles.text}>TODO</Text>
-        <Image source={require("../assets/CompletionMark.png")} />
-      </View>
-    </Pressable>
+    // <Pressable>
+    // </Pressable>
+    <View style={styles.container}>
+      <Image style={styles.pin} source={require("../assets/unPinned.svg")} />
+      <Text style={styles.text}>{todo.title}</Text>
+      <Image
+        style={styles.checkmark}
+        source={require("../assets/uncompleteCheck.svg")}
+      />
+    </View>
   );
 };
 
@@ -41,15 +46,14 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 25,
     paddingHorizontal: 10,
     marginTop: hp("2%"),
-    shadowColor: "#fff",
-    shadowOffset: {
-      width: 0,
-      height: 6,
-    },
-    shadowOpacity: 0.39,
-    shadowRadius: 8.3,
-
-    elevation: 13,
+  },
+  pin: {
+    width: wp("7%"),
+    height: hp("5%"),
+  },
+  checkmark: {
+    width: wp("10%"),
+    height: hp("5%"),
   },
   text: {
     color: "#BD8904",

@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Image } from "expo-image";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -9,10 +10,10 @@ const header = () => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image source={require("../assets/Logo.png")} style={styles.image} />
+        <Image source={require("../assets/Logo.svg")} style={styles.image} />
       </View>
       <Image
-        source={require("../assets/settingsIcon.png")}
+        source={require("../assets/settingsIcon.svg")}
         style={styles.settingsIcon}
       />
     </View>

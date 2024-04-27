@@ -8,14 +8,30 @@ import {
 } from "react-native-responsive-screen";
 import Header from "./components/header";
 import { useState } from "react";
+import todo from "./components/todo";
 export default function App() {
   const [todoOpen, setTodoOpen] = useState(null);
+  const [todos, setTodos] = useState([
+    {
+      id: 1,
+      title: "Dentist",
+      description: "I need to go to the dentist",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 2,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+  ]);
 
   return (
     <View style={styles.container}>
       <Header />
-
-      <TodoContainer todoOpen={todoOpen} />
+      <TodoContainer todoOpen={todoOpen} todos={todos} />
       <StatusBar style="auto" />
       <Footer />
     </View>
