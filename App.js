@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import TodoContainer from "./components/todoContainer";
 import Footer from "./components/Footer";
+import AddTodoWindow from "./components/addTodoWindow";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -76,13 +77,16 @@ export default function App() {
       pinned: false,
     },
   ]);
+  const addTodo = (newTodo) => {
+    setTodos([...todos, newTodo]);
+  };
 
   return (
     <View style={styles.container}>
       <Header />
       <TodoContainer todoOpen={todoOpen} todos={todos} />
       <StatusBar style="auto" />
-      <Footer />
+      <Footer addTodo={addTodo} />
     </View>
   );
 }
