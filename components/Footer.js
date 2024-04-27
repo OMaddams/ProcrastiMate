@@ -6,7 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const Footer = ({ addTondo }) => {
+const Footer = ({ addTodo }) => {
   const [showComponent, setShowComponent] = React.useState(false);
 
   const handlePress = () => {

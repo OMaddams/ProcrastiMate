@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   settingsIcon: {
     marginRight: wp("5%"),
     marginTop: hp("3"),
-    width: wp("1%"),
+    width: wp("10%"),
     height: hp("5%"),
   },
 });

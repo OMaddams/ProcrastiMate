@@ -1,7 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text, ScrollView } from "react-native";
 import Todo from "./todo";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 const todoContainer = ({ todos, todoOpen }) => {
   if (todoOpen === null) {
@@ -25,6 +28,7 @@ const styles = StyleSheet.create({
     width: "100%",
     overflow: "scroll",
     marginHorizontal: wp("5%"),
+    paddingBottom: hp("2%"),
   },
   text: {
     color: "#BD8904",
