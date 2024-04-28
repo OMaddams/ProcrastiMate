@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View, Pressable, TextInput } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  TextInput,
+  Animated,
+} from "react-native";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const Footer = ({ addTondo }) => {
-  const [showComponent, setShowComponent] = React.useState(false);
+const Footer = ({ addTodo }) => {
+  const [showComponent, setShowComponent] = useState(false);
 
   const handlePress = () => {
     setShowComponent(!showComponent);
@@ -38,11 +45,26 @@ const Footer = ({ addTondo }) => {
 };
 
 const AddTodoWindow = ({ setShowComponent, addTodo }) => {
-  const [taskTitle, setTitle] = React.useState("");
-  const [taskInfo, setInfo] = React.useState("");
+  const [taskTitle, setTitle] = useState("");
+  const [taskInfo, setInfo] = useState("");
+  const [animation] = useState(new Animated.Value(0));
+
+  useEffect(() => {
+    Animated.timing(animation, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+  }, [animation]);
 
   const handleBackPress = () => {
-    setShowComponent(false);
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => {
+      setShowComponent(false);
+    });
   };
 
   const handleSavePress = () => {
@@ -59,7 +81,19 @@ const AddTodoWindow = ({ setShowComponent, addTodo }) => {
   };
 
   return (
-    <View style={styles.addTodoContainer}>
+    <Animated.View
+      style={{
+        ...styles.addTodoContainer,
+        transform: [
+          {
+            translateY: animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [400, 0],
+            }),
+          },
+        ],
+      }}
+    >
       <Text style={styles.title}>Title</Text>
       <TextInput
         value={taskTitle}
@@ -73,30 +107,20 @@ const AddTodoWindow = ({ setShowComponent, addTodo }) => {
         onChangeText={setInfo}
       />
       <View style={styles.buttonContainer}>
-        <Pressable
-          onPress={handleBackPress}
-          style={({ pressed }) => {
-            return { opacity: pressed ? 0.5 : 1 };
-          }}
-        >
+        <Pressable onPress={handleBackPress}>
           <Image
             source={require("../assets/backIcon.svg")}
             style={styles.backIcon}
           />
         </Pressable>
-        <Pressable
-          onPress={handleSavePress}
-          style={({ pressed }) => {
-            return { opacity: pressed ? 0.5 : 1 };
-          }}
-        >
+        <Pressable onPress={handleSavePress}>
           <Image
             source={require("../assets/saveIcon.svg")}
             style={styles.saveIcon}
           />
         </Pressable>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -113,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   image: {
-    height: hp("6.8r%"),
+    height: hp("6.8%"),
     width: wp("14%"),
   },
   addTodoContainer: {
