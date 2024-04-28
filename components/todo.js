@@ -8,26 +8,29 @@ import {
 
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
-const todo = (todo) => {
-  console.log(todo.title);
+const todo = ({ todoo, setTodoOpen }) => {
+  function handleOpenPress() {
+    setTodoOpen(todoo);
+  }
+  console.log(todoo.title);
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
   });
 
-  if (!fontsLoaded || todo == null) {
+  if (!fontsLoaded || todoo == null) {
     return null;
   }
   return (
-    // <Pressable>
-    // </Pressable>
-    <View style={styles.container}>
-      <Image style={styles.pin} source={require("../assets/unPinned.svg")} />
-      <Text style={styles.text}>{todo.title}</Text>
-      <Image
-        style={styles.checkmark}
-        source={require("../assets/uncompleteCheck.svg")}
-      />
-    </View>
+    <Pressable onPress={() => handleOpenPress()}>
+      <View style={styles.container}>
+        <Image style={styles.pin} source={require("../assets/unPinned.svg")} />
+        <Text style={styles.text}>{todoo.title}</Text>
+        <Image
+          style={styles.checkmark}
+          source={require("../assets/uncompleteCheck.svg")}
+        />
+      </View>
+    </Pressable>
   );
 };
 

@@ -10,77 +10,13 @@ import {
 import Header from "./components/header";
 import { useEffect, useState } from "react";
 import todo from "./components/todo";
+import TodoInfo from "./components/todoInfo";
 
 export default function App() {
   const db = SQLite.openDatabase("todo.db");
   const [isLoading, setIsLoading] = useState(true);
-
   const [todoOpen, setTodoOpen] = useState(null);
-  const [todos, setTodos] = useState([
-    {
-      id: 1,
-      title: "Dentist",
-      description: "I need to go to the dentist",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 2,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 3,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 4,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 5,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 6,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 7,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 8,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-    {
-      id: 9,
-      title: "Buy milk",
-      description: "I need to buy milk",
-      completed: false,
-      pinned: false,
-    },
-  ]);
+  const [todos, setTodos] = useState([]);
   const addTodo = (newTodo) => {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
@@ -108,7 +44,25 @@ export default function App() {
     });
   };
 
+  const deleteTodo = (id) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM todos WHERE ID = ?",
+        [id],
+        (txtObj, resultSet) => {
+          let existingTodos = [...todos];
+          let newTodos = existingTodos.filter((todo) => todo.id !== id);
+          setTodos(newTodos);
+        },
+        (txtObj, error) => console.log(error)
+      );
+    });
+  };
+
   useEffect(() => {
+    // db.transaction((tx) => {
+    //   tx.executeSql("DROP TABLE if exists todos");
+    // });
     db.transaction((tx) => {
       tx.executeSql(
         "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed BOOLEAN NOT NULL, is_pinned BOOLEAN NOT NULL)"
@@ -126,14 +80,33 @@ export default function App() {
     setIsLoading(false);
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Header />
-      <TodoContainer todoOpen={todoOpen} todos={todos} isLoading={isLoading} />
-      <StatusBar style="auto" />
-      <Footer addTodo={addTodo} />
-    </View>
-  );
+  if (todoOpen == null) {
+    return (
+      <View style={styles.container}>
+        <Header />
+        <TodoContainer
+          todoOpen={todoOpen}
+          todos={todos}
+          isLoading={isLoading}
+          setTodoOpen={setTodoOpen}
+        />
+        <StatusBar style="auto" />
+        <Footer addTodo={addTodo} />
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Header />
+        <StatusBar style="auto" />
+        <TodoInfo
+          selectedTodo={todoOpen}
+          deleteTodo={deleteTodo}
+          setTodoOpen={setTodoOpen}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
