@@ -26,6 +26,55 @@ export default function App() {
       completed: false,
       pinned: false,
     },
+    {
+      id: 3,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 4,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 5,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 6,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 7,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 8,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
+    {
+      id: 9,
+      title: "Buy milk",
+      description: "I need to buy milk",
+      completed: false,
+      pinned: false,
+    },
   ]);
   const addTodo = (newTodo) => {
     setTodos([...todos, newTodo]);

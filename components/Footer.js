@@ -14,7 +14,10 @@ import {
 } from "react-native-responsive-screen";
 
 const Footer = ({ addTodo }) => {
+
   const [showComponent, setShowComponent] = useState(false);
+
+  
 
   const handlePress = () => {
     setShowComponent(!showComponent);
