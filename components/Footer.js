@@ -14,10 +14,7 @@ import {
 } from "react-native-responsive-screen";
 
 const Footer = ({ addTodo }) => {
-
   const [showComponent, setShowComponent] = useState(false);
-
-  
 
   const handlePress = () => {
     setShowComponent(!showComponent);
@@ -72,11 +69,10 @@ const AddTodoWindow = ({ setShowComponent, addTodo }) => {
 
   const handleSavePress = () => {
     const newTodo = {
-      id: Math.random(),
       title: taskTitle,
       description: taskInfo,
-      completed: false,
-      pinned: false,
+      isCompleted: false,
+      isPinned: false,
     };
 
     addTodo(newTodo);

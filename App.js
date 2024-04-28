@@ -2,14 +2,19 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
 import TodoContainer from "./components/todoContainer";
 import Footer from "./components/Footer";
+import * as SQLite from "expo-sqlite";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Header from "./components/header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import todo from "./components/todo";
+
 export default function App() {
+  const db = SQLite.openDatabase("todo.db");
+  const [isLoading, setIsLoading] = useState(true);
+
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([
     {
@@ -77,13 +82,54 @@ export default function App() {
     },
   ]);
   const addTodo = (newTodo) => {
-    setTodos([...todos, newTodo]);
+    //setTodos([...todos, newTodo]);
+    db.transaction((tx) => {
+      tx.executeSql(
+        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?);`,
+        [
+          newTodo.title,
+          newTodo.description,
+          newTodo.isCompleted,
+          newTodo.isPinned,
+        ],
+        (txtObj, resultSet) => {
+          let existingTodos = [...todos];
+          existingTodos.push({
+            id: resultSet.insertId,
+            title: newTodo.title,
+            description: newTodo.description,
+            isCompleted: newTodo.isCompleted,
+            isPinned: newTodo.isPinned,
+          });
+          setTodos(existingTodos);
+        },
+        (txtObj, error) => console.log(error)
+      );
+    });
   };
+
+  useEffect(() => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed BOOLEAN NOT NULL, is_pinned BOOLEAN NOT NULL)"
+      );
+    });
+
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM todos",
+        null,
+        (txtObj, resultSet) => setTodos(resultSet.rows._array),
+        (txtObj, error) => console.log(error)
+      );
+    });
+    setIsLoading(false);
+  }, []);
 
   return (
     <View style={styles.container}>
       <Header />
-      <TodoContainer todoOpen={todoOpen} todos={todos} />
+      <TodoContainer todoOpen={todoOpen} todos={todos} isLoading={isLoading} />
       <StatusBar style="auto" />
       <Footer addTodo={addTodo} />
     </View>
@@ -97,5 +143,12 @@ const styles = StyleSheet.create({
 
     // alignItems: "center",
     // justifyContent: "center",
+  },
+  loadingContainer: {
+    display: "flex",
+    width: "100%",
+    height: hp("5%"),
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
