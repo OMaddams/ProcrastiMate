@@ -7,7 +7,13 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const todoContainer = ({ todos, todoOpen, isLoading, setTodoOpen }) => {
+const todoContainer = ({
+  todos,
+  todoOpen,
+  isLoading,
+  setTodoOpen,
+  editTodo,
+}) => {
   if (isLoading) {
     return (
       <ScrollView contentContainerStyle={styles.containerLoading}>
@@ -23,6 +29,7 @@ const todoContainer = ({ todos, todoOpen, isLoading, setTodoOpen }) => {
             title={todo.title}
             todoo={todo}
             setTodoOpen={setTodoOpen}
+            editTodo={editTodo}
           />
         ))}
       </ScrollView>

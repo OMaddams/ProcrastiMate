@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import { StyleSheet, View, Text, Pressable } from "react-native";
 import { Image } from "expo-image";
 import {
@@ -8,11 +9,13 @@ import {
 
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
-const todo = ({ todoo, setTodoOpen }) => {
+const todo = ({ todoo, setTodoOpen, editTodo }) => {
+  const [isComplete, setIsComplete] = useState(todoo.is_completed);
+
   function handleOpenPress() {
     setTodoOpen(todoo);
   }
-  console.log(todoo.title);
+
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
   });
@@ -20,15 +23,29 @@ const todo = ({ todoo, setTodoOpen }) => {
   if (!fontsLoaded || todoo == null) {
     return null;
   }
+
+  function handleCompletePress() {
+    setIsComplete(!isComplete);
+    todoo.is_completed = isComplete;
+    editTodo(todoo);
+    console.log(todoo);
+  }
+
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
         <Image style={styles.pin} source={require("../assets/unPinned.svg")} />
         <Text style={styles.text}>{todoo.title}</Text>
-        <Image
-          style={styles.checkmark}
-          source={require("../assets/uncompleteCheck.svg")}
-        />
+        <Pressable onPress={() => handleCompletePress()}>
+          <Image
+            style={styles.checkmark}
+            source={
+              isComplete
+                ? require("../assets/completeCheck.svg")
+                : require("../assets/uncompleteCheck.svg")
+            }
+          />
+        </Pressable>
       </View>
     </Pressable>
   );
