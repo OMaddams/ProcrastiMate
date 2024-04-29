@@ -15,11 +15,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
+const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
   const [animation] = useState(new Animated.Value(0));
   const [is_editing, setIsEditing] = useState(false);
-  const [newTaskTitle, setTitle] = useState("");
-  const [newTaskInfo, setInfo] = useState("");
+  const [newTaskTitle, setTitle] = useState(selectedTodo.title || "");
+  const [newTaskInfo, setInfo] = useState(selectedTodo.description || "");
 
   BackHandler.addEventListener("hardwareBackPress", function () {
     setTodoOpen(null);
@@ -65,17 +65,13 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
   };
 
   const handleSaveChangesPress = () => {
-    const newTodo = {
-      title: taskTitle,
-      description: taskInfo,
-      isCompleted: false,
-      isPinned: false,
-    };
+    selectedTodo.title = newTaskTitle;
+    selectedTodo.description = newTaskInfo;
 
-    addTodo(newTodo);
-    setShowComponent(false);
+    editTodo(selectedTodo);
+    setIsEditing(false);
   };
-  if (is_editing == false) {
+  if (is_editing === false) {
     return (
       <Animated.View
         style={{
@@ -136,12 +132,14 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
           value={newTaskTitle}
           style={styles.titleInput}
           onChangeText={setTitle}
+          defaultValue={selectedTodo.title}
         />
         <Text style={styles.title}>Task Info:</Text>
         <TextInput
           value={newTaskInfo}
           style={styles.titleInput}
           onChangeText={setTitle}
+          defaultValue={selectedTodo.description}
         />
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>

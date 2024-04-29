@@ -11,8 +11,10 @@ import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
 const todo = ({ todoo, setTodoOpen, editTodo }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
-
+  const [isPinned, setIsPinned] = useState(todoo.is_pinned);
+  console.log(todoo);
   function handleOpenPress() {
+    console.log(todoo);
     setTodoOpen(todoo);
   }
 
@@ -24,23 +26,39 @@ const todo = ({ todoo, setTodoOpen, editTodo }) => {
     return null;
   }
 
-  function handleCompletePress() {
-    setIsComplete(!isComplete);
-    todoo.is_completed = isComplete;
+  function handlePinPress() {
+    const currentState = isPinned;
+    setIsPinned(!currentState);
+    todoo.is_pinned = !currentState;
     editTodo(todoo);
-    console.log(todoo);
+  }
+
+  function handleCompletePress() {
+    const currentState = isComplete;
+    setIsComplete(!currentState);
+    todoo.is_completed = !currentState;
+    editTodo(todoo);
   }
 
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
-        <Image style={styles.pin} source={require("../assets/unPinned.svg")} />
+        <Pressable onPress={() => handlePinPress()}>
+          <Image
+            style={styles.pin}
+            source={
+              +todoo.is_pinned == true
+                ? require("../assets/pinned.svg")
+                : require("../assets/unPinned.svg")
+            }
+          />
+        </Pressable>
         <Text style={styles.text}>{todoo.title}</Text>
         <Pressable onPress={() => handleCompletePress()}>
           <Image
             style={styles.checkmark}
             source={
-              isComplete
+              +todoo.is_completed == true
                 ? require("../assets/completeCheck.svg")
                 : require("../assets/uncompleteCheck.svg")
             }
@@ -54,7 +72,7 @@ const todo = ({ todoo, setTodoOpen, editTodo }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3A3737",
-    minHeight: 50,
+    minHeight: 60,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

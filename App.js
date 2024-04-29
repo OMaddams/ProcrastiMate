@@ -19,6 +19,8 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const db = SQLite.openDatabase("todo.db");
+  // db.closeAsync();
+  // db.deleteAsync();
   const [isLoading, setIsLoading] = useState(true);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
@@ -26,7 +28,7 @@ export default function App() {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?);`,
+        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
         [
           newTodo.title,
           newTodo.description,
@@ -39,8 +41,8 @@ export default function App() {
             id: resultSet.insertId,
             title: newTodo.title,
             description: newTodo.description,
-            isCompleted: newTodo.isCompleted,
-            isPinned: newTodo.isPinned,
+            is_completed: newTodo.isCompleted,
+            is_pinned: newTodo.isPinned,
           });
           setTodos(existingTodos);
         },
@@ -70,21 +72,31 @@ export default function App() {
         [
           todo.title,
           todo.description,
-          todo.is_completed,
-          todo.is_pinned,
+          +todo.is_completed,
+          +todo.is_pinned,
           todo.id,
-        ]
+        ],
+        () => {
+          let editedTodoIndex = todos.findIndex((x) => x.id === todo.id);
+          todos[editedTodoIndex] = {
+            id: todo.id,
+            title: todo.title,
+            description: +todo.description,
+            is_completed: +todo.is_completed,
+            is_pinned: todo.is_pinned,
+          };
+        }
       );
     });
   };
 
   useEffect(() => {
     // db.transaction((tx) => {
-    //   tx.executeSql("DROP TABLE if exists todos");
+    //   tx.executeSql("DROP TABLE IF EXISTS todos");
     // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed BOOLEAN NOT NULL, is_pinned BOOLEAN NOT NULL)"
+        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed INT NOT NULL, is_pinned INT NOT NULL)"
       );
     });
 
@@ -123,6 +135,7 @@ export default function App() {
           selectedTodo={todoOpen}
           deleteTodo={deleteTodo}
           setTodoOpen={setTodoOpen}
+          editTodo={editTodo}
         />
       </View>
     );
