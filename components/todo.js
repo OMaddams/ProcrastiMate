@@ -11,6 +11,7 @@ import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
 const todo = ({ todoo, setTodoOpen, editTodo }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
+  const [isPinned, setIsPinned] = useState(todoo.is_pinned);
   console.log(todoo);
   function handleOpenPress() {
     console.log(todoo);
@@ -25,18 +26,33 @@ const todo = ({ todoo, setTodoOpen, editTodo }) => {
     return null;
   }
 
+  function handlePinPress() {
+    const currentState = isPinned;
+    setIsPinned(!currentState);
+    todoo.is_pinned = !currentState;
+    editTodo(todoo);
+  }
+
   function handleCompletePress() {
     const currentState = isComplete;
     setIsComplete(!currentState);
     todoo.is_completed = !currentState;
     editTodo(todoo);
-    console.log(todoo);
   }
 
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
-        <Image style={styles.pin} source={require("../assets/unPinned.svg")} />
+        <Pressable onPress={() => handlePinPress()}>
+          <Image
+            style={styles.pin}
+            source={
+              +todoo.is_pinned == true
+                ? require("../assets/pinned.svg")
+                : require("../assets/unPinned.svg")
+            }
+          />
+        </Pressable>
         <Text style={styles.text}>{todoo.title}</Text>
         <Pressable onPress={() => handleCompletePress()}>
           <Image
