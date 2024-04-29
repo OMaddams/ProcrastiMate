@@ -1,8 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { Appearance, useColorScheme } from "react-native";
 import TodoContainer from "./components/todoContainer";
 import Footer from "./components/Footer";
 import * as SQLite from "expo-sqlite";
+import { useKeepAwake } from "expo-keep-awake";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -13,6 +15,9 @@ import todo from "./components/todo";
 import TodoInfo from "./components/todoInfo";
 
 export default function App() {
+  useKeepAwake();
+  const colorScheme = useColorScheme();
+
   const db = SQLite.openDatabase("todo.db");
   const [isLoading, setIsLoading] = useState(true);
   const [todoOpen, setTodoOpen] = useState(null);
