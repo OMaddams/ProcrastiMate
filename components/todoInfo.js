@@ -71,7 +71,7 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
     editTodo(selectedTodo);
     setIsEditing(false);
   };
-  if (is_editing == false) {
+  if (is_editing === false) {
     return (
       <Animated.View
         style={{

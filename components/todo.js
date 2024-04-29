@@ -11,8 +11,9 @@ import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
 const todo = ({ todoo, setTodoOpen, editTodo }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
-
+  console.log(todoo);
   function handleOpenPress() {
+    console.log(todoo);
     setTodoOpen(todoo);
   }
 
@@ -25,8 +26,9 @@ const todo = ({ todoo, setTodoOpen, editTodo }) => {
   }
 
   function handleCompletePress() {
-    setIsComplete(!isComplete);
-    todoo.is_completed = isComplete;
+    const currentState = isComplete;
+    setIsComplete(!currentState);
+    todoo.is_completed = !currentState;
     editTodo(todoo);
     console.log(todoo);
   }
@@ -40,7 +42,7 @@ const todo = ({ todoo, setTodoOpen, editTodo }) => {
           <Image
             style={styles.checkmark}
             source={
-              isComplete
+              +todoo.is_completed == true
                 ? require("../assets/completeCheck.svg")
                 : require("../assets/uncompleteCheck.svg")
             }

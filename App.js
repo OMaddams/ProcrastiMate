@@ -19,6 +19,7 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const db = SQLite.openDatabase("todo.db");
+
   const [isLoading, setIsLoading] = useState(true);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
@@ -70,10 +71,20 @@ export default function App() {
         [
           todo.title,
           todo.description,
-          todo.is_completed,
-          todo.is_pinned,
+          +todo.is_completed,
+          +todo.is_pinned,
           todo.id,
-        ]
+        ],
+        () => {
+          let editedTodoIndex = todos.findIndex((x) => x.id === todo.id);
+          todos[editedTodoIndex] = {
+            id: todo.id,
+            title: todo.title,
+            description: +todo.description,
+            is_completed: +todo.is_completed,
+            is_pinned: todo.is_pinned,
+          };
+        }
       );
     });
   };
@@ -84,7 +95,7 @@ export default function App() {
     // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed BOOLEAN NOT NULL, is_pinned BOOLEAN NOT NULL)"
+        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed INT NOT NULL, is_pinned INT NOT NULL)"
       );
     });
 

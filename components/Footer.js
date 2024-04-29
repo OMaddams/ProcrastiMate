@@ -71,8 +71,8 @@ const AddTodoWindow = ({ setShowComponent, addTodo }) => {
     const newTodo = {
       title: taskTitle,
       description: taskInfo,
-      isCompleted: false,
-      isPinned: false,
+      isCompleted: 0,
+      isPinned: 0,
     };
 
     addTodo(newTodo);
