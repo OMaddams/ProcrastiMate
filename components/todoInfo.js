@@ -7,6 +7,8 @@ import {
   Pressable,
   Animated,
   Alert,
+  BackHandler,
+  TextInput,
 } from "react-native";
 import {
   widthPercentageToDP as wp,
@@ -15,6 +17,13 @@ import {
 
 const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
   const [animation] = useState(new Animated.Value(0));
+  const [is_editing, setIsEditing] = useState(false);
+  const [newTaskTitle, setTitle] = useState("");
+  const [newTaskInfo, setInfo] = useState("");
+
+  BackHandler.addEventListener("hardwareBackPress", function () {
+    setTodoOpen(null);
+  });
 
   console.log(selectedTodo.title);
   useEffect(() => {
@@ -24,6 +33,16 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
       useNativeDriver: true,
     }).start();
   }, [animation]);
+
+  const handleBackPress = () => {
+    Animated.timing(animation, {
+      toValue: 0,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => {
+      setTodoOpen(null);
+    });
+  };
 
   const handleDeletePress = () => {
     Alert.alert("Delete Todo", "Are you sure you want to delete this todo?", [
@@ -41,6 +60,10 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
     ]);
   };
 
+  const handleEditPress = () => {
+    setIsEditing(true);
+  };
+
   const handleSaveChangesPress = () => {
     const newTodo = {
       title: taskTitle,
@@ -52,40 +75,97 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen }) => {
     addTodo(newTodo);
     setShowComponent(false);
   };
-  return (
-    <Animated.View
-      style={{
-        ...styles.addTodoContainer,
-        transform: [
-          {
-            translateY: animation.interpolate({
-              inputRange: [0, 1],
-              outputRange: [400, 0],
-            }),
-          },
-        ],
-      }}
-    >
-      <Text style={styles.title}>Title:</Text>
-      <Text style={styles.todoTitle}>{selectedTodo.title}</Text>
-      <Text style={styles.title}>Task Info:</Text>
-      <Text style={styles.todoInfo}>{selectedTodo.description}</Text>
-      <View style={styles.buttonContainer}>
-        <Pressable onPress={handleDeletePress}>
-          <Image
-            source={require("../assets/deleteicon.svg")}
-            style={styles.deleteIcon}
-          />
-        </Pressable>
-        <Pressable onPress={handleSaveChangesPress}>
-          <Image
-            source={require("../assets/savechangesicon.svg")}
-            style={styles.saveChangesIcon}
-          />
-        </Pressable>
-      </View>
-    </Animated.View>
-  );
+  if (is_editing == false) {
+    return (
+      <Animated.View
+        style={{
+          ...styles.addTodoContainer,
+          transform: [
+            {
+              translateY: animation.interpolate({
+                inputRange: [0, 1],
+                outputRange: [400, 0],
+              }),
+            },
+          ],
+        }}
+      >
+        <Text style={styles.title}>Title:</Text>
+        <Text style={styles.todoTitle}>{selectedTodo.title}</Text>
+        <Text style={styles.title}>Task Info:</Text>
+        <Text style={styles.todoInfo}>{selectedTodo.description}</Text>
+        <View style={styles.buttonContainer}>
+          <Pressable onPress={handleBackPress}>
+            <Image
+              source={require("../assets/backIcon.svg")}
+              style={styles.backIcon}
+            />
+          </Pressable>
+          <Pressable onPress={handleDeletePress}>
+            <Image
+              source={require("../assets/deleteicon.svg")}
+              style={styles.deleteIcon}
+            />
+          </Pressable>
+          <Pressable onPress={handleEditPress}>
+            <Image
+              source={require("../assets/editIcon.svg")}
+              style={styles.editIcon}
+            />
+          </Pressable>
+        </View>
+      </Animated.View>
+    );
+  } else {
+    return (
+      <Animated.View
+        style={{
+          ...styles.addTodoContainer,
+          transform: [
+            {
+              translateY: animation.interpolate({
+                inputRange: [0, 1],
+                outputRange: [400, 0],
+              }),
+            },
+          ],
+        }}
+      >
+        <Text style={styles.title}>Title:</Text>
+        <TextInput
+          value={newTaskTitle}
+          style={styles.titleInput}
+          onChangeText={setTitle}
+        />
+        <Text style={styles.title}>Task Info:</Text>
+        <TextInput
+          value={newTaskInfo}
+          style={styles.titleInput}
+          onChangeText={setTitle}
+        />
+        <View style={styles.buttonContainer}>
+          <Pressable onPress={handleBackPress}>
+            <Image
+              source={require("../assets/backIcon.svg")}
+              style={styles.backIcon}
+            />
+          </Pressable>
+          <Pressable onPress={handleDeletePress}>
+            <Image
+              source={require("../assets/deleteicon.svg")}
+              style={styles.deleteIcon}
+            />
+          </Pressable>
+          <Pressable onPress={handleSaveChangesPress}>
+            <Image
+              source={require("../assets/saveIcon.svg")}
+              style={styles.editIcon}
+            />
+          </Pressable>
+        </View>
+      </Animated.View>
+    );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -144,11 +224,47 @@ const styles = StyleSheet.create({
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
-  saveChangesIcon: {
+  editIcon: {
     width: wp("10%"),
     height: hp("5%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
+  },
+  backIcon: {
+    width: wp("10%"),
+    height: hp("5%"),
+    marginTop: hp("3%"),
+    marginLeft: wp("5%"),
+  },
+  saveIcon: {
+    width: wp("10%"),
+    height: hp("5%"),
+    marginTop: hp("3%"),
+    marginLeft: wp("5%"),
+  },
+  titleInput: {
+    marginTop: "5%",
+    width: wp("80%"),
+    height: hp("8%"),
+    color: "#fff",
+    backgroundColor: "#3A3737",
+    borderColor: "#BD8904",
+    borderRadius: 15,
+    fontSize: 18,
+    color: "#BD8904",
+    textAlign: "center",
+  },
+  taskInfoInput: {
+    marginTop: "5%",
+    width: wp("80%"),
+    height: hp("15%"),
+    color: "#fff",
+    backgroundColor: "#3A3737",
+    borderColor: "#BD8904",
+    borderRadius: 15,
+    fontSize: 18,
+    color: "#BD8904",
+    textAlign: "center",
   },
 });
 
