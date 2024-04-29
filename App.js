@@ -19,7 +19,8 @@ export default function App() {
   const colorScheme = useColorScheme();
 
   const db = SQLite.openDatabase("todo.db");
-
+  // db.closeAsync();
+  // db.deleteAsync();
   const [isLoading, setIsLoading] = useState(true);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
@@ -27,7 +28,7 @@ export default function App() {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?);`,
+        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
         [
           newTodo.title,
           newTodo.description,
@@ -40,8 +41,8 @@ export default function App() {
             id: resultSet.insertId,
             title: newTodo.title,
             description: newTodo.description,
-            isCompleted: newTodo.is_completed,
-            isPinned: newTodo.isPinned,
+            is_completed: newTodo.isCompleted,
+            is_pinned: newTodo.isPinned,
           });
           setTodos(existingTodos);
         },
