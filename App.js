@@ -39,7 +39,7 @@ export default function App() {
             id: resultSet.insertId,
             title: newTodo.title,
             description: newTodo.description,
-            isCompleted: newTodo.isCompleted,
+            isCompleted: newTodo.is_completed,
             isPinned: newTodo.isPinned,
           });
           setTodos(existingTodos);
@@ -80,7 +80,7 @@ export default function App() {
 
   useEffect(() => {
     // db.transaction((tx) => {
-    //   tx.executeSql("DROP TABLE if exists todos");
+    //   tx.executeSql("DROP TABLE IF EXISTS todos");
     // });
     db.transaction((tx) => {
       tx.executeSql(
@@ -123,6 +123,7 @@ export default function App() {
           selectedTodo={todoOpen}
           deleteTodo={deleteTodo}
           setTodoOpen={setTodoOpen}
+          editTodo={editTodo}
         />
       </View>
     );
