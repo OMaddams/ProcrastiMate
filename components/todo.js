@@ -9,13 +9,13 @@ import {
 
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
-const todo = ({ todoo, setTodoOpen }) => {
-  const [isComplete, setIsComplete] = useState(todoo.isComplete);
+const todo = ({ todoo, setTodoOpen, editTodo }) => {
+  const [isComplete, setIsComplete] = useState(todoo.is_completed);
 
   function handleOpenPress() {
     setTodoOpen(todoo);
   }
-  console.log(todoo.title);
+
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
   });
@@ -26,7 +26,9 @@ const todo = ({ todoo, setTodoOpen }) => {
 
   function handleCompletePress() {
     setIsComplete(!isComplete);
-    console.log(isComplete);
+    todoo.is_completed = isComplete;
+    editTodo(todoo);
+    console.log(todoo);
   }
 
   return (

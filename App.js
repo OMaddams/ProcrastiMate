@@ -63,6 +63,20 @@ export default function App() {
       );
     });
   };
+  const editTodo = (todo) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "UPDATE todos SET title = ?, description = ?, is_completed = ?, is_pinned = ? WHERE id = ?",
+        [
+          todo.title,
+          todo.description,
+          todo.is_completed,
+          todo.is_pinned,
+          todo.id,
+        ]
+      );
+    });
+  };
 
   useEffect(() => {
     // db.transaction((tx) => {
@@ -94,6 +108,7 @@ export default function App() {
           todos={todos}
           isLoading={isLoading}
           setTodoOpen={setTodoOpen}
+          editTodo={editTodo}
         />
         <StatusBar style="auto" />
         <Footer addTodo={addTodo} />
