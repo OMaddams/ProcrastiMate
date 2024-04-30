@@ -44,11 +44,13 @@ export default function App() {
             is_completed: newTodo.isCompleted,
             is_pinned: newTodo.isPinned,
           });
-          setTodos(existingTodos);
+          setTodos([existingTodos]);
         },
         (txtObj, error) => console.log(error)
       );
     });
+    let sortedTodos = sortTodos(todos);
+    setTodos([...sortedTodos]);
   };
 
   const deleteTodo = (id) => {
@@ -81,22 +83,22 @@ export default function App() {
           todos[editedTodoIndex] = {
             id: todo.id,
             title: todo.title,
-            description: +todo.description,
+            description: todo.description,
             is_completed: +todo.is_completed,
-            is_pinned: todo.is_pinned,
+            is_pinned: +todo.is_pinned,
           };
-          setTodos(
-            todos.sort((a, b) => {
-              return (
-                b.is_pinned - a.is_pinned || a.is_completed - b.is_completed
-              );
-            })
-          );
         }
       );
     });
+    let sortedTodos = sortTodos(todos);
+    setTodos([...sortedTodos]);
   };
 
+  function sortTodos(todosArray) {
+    return todosArray.sort((a, b) => {
+      return b.is_pinned - a.is_pinned || a.is_completed - b.is_completed;
+    });
+  }
   useEffect(() => {
     // db.transaction((tx) => {
     //   tx.executeSql("DROP TABLE IF EXISTS todos");
