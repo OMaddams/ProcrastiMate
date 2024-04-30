@@ -85,6 +85,13 @@ export default function App() {
             is_completed: +todo.is_completed,
             is_pinned: todo.is_pinned,
           };
+          setTodos(
+            todos.sort((a, b) => {
+              return (
+                b.is_pinned - a.is_pinned || a.is_completed - b.is_completed
+              );
+            })
+          );
         }
       );
     });
