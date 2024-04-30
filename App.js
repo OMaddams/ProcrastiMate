@@ -102,7 +102,7 @@ export default function App() {
 
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM todos",
+        "SELECT * FROM todos ORDER BY is_pinned DESC, is_completed ASC",
         null,
         (txtObj, resultSet) => setTodos(resultSet.rows._array),
         (txtObj, error) => console.log(error)
