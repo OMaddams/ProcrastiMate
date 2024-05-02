@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import CompleteCheck from "../assets/CompleteCheck.js";
+import CompleteCheck from "../assets/completeCheck.js";
 import UncompleteIcon from "../assets/UncompleteIcon.js";
 import Pinned from "../assets/PinnedIcon.js";
 import UnPinned from "../assets/UnpinnedIcon.js";
@@ -86,7 +86,7 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3A3737",
-    minHeight: 60,
+    minHeight: 65,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
     height: hp("4%"),
   },
   checkmark: {
-    width: wp("10%"),
-    height: hp("4%"),
+    width: wp("12%"),
+    height: hp("6%"),
   },
   text: {
     fontSize: 18,

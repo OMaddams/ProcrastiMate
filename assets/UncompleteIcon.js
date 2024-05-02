@@ -8,9 +8,9 @@ const SvgComponent = ({ themeColor, containerStyle }) => (
     fill="none"
   >
     <Circle
-      cx={16.5}
-      cy={16.5}
-      r={containerStyle.width / 2}
+      cx={containerStyle.width / 2}
+      cy={containerStyle.height / 2}
+      r={24}
       stroke={themeColor}
       strokeWidth={2}
     />

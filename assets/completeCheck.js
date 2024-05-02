@@ -1,5 +1,6 @@
 import * as React from "react";
 import Svg, { Path, Circle } from "react-native-svg";
+
 const CompleteCheck = ({ themeColor, containerStyle }) => (
   <Svg
     width={containerStyle.width}
@@ -7,12 +8,25 @@ const CompleteCheck = ({ themeColor, containerStyle }) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <Circle cx={18.5} cy={18.5} r={18.5} fill={themeColor} />
+    {/* Circle */}
+    <Circle
+      cx={containerStyle.width / 2}
+      cy={containerStyle.height / 2}
+      r={24} // Adjust radius as needed
+      fill={themeColor}
+    />
+
+    {/* Checkmark */}
     <Path
-      d="M8 18.238L16.09 26.4761L29.5735 10"
+      d={`M${containerStyle.width / 2 - 10},${containerStyle.height / 2} L${
+        containerStyle.width / 2 - 5
+      },${containerStyle.height / 2 + 10} L${containerStyle.width / 2 + 15},${
+        containerStyle.height / 2 - 10
+      }`} // Adjust path coordinates for centering
       stroke="#33363F"
-      stroke-width={15}
+      strokeWidth={5} // Adjust stroke width as needed
     />
   </Svg>
 );
+
 export default CompleteCheck;
