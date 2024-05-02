@@ -35,7 +35,7 @@ export default function App() {
   // db.closeAsync();
   // db.deleteAsync();
   const [isLoading, setIsLoading] = useState(true);
-  const [isViewingSettings, setIsViewingSettings] = useState(true);
+  const [isViewingSettings, setIsViewingSettings] = useState(false);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
   const sortedTodosRef = useRef([]);
@@ -170,7 +170,11 @@ export default function App() {
   if (todoOpen == null && isViewingSettings == false) {
     return (
       <View style={styles.container}>
-        <Header themeColor={themeColor} />
+        <Header
+          themeColor={themeColor}
+          setIsViewingSettings={setIsViewingSettings}
+          isViewingSettings={isViewingSettings}
+        />
         <TodoContainer
           todoOpen={todoOpen}
           todos={todos}
@@ -185,7 +189,11 @@ export default function App() {
   } else if (todoOpen != null && isViewingSettings == false) {
     return (
       <View style={styles.container}>
-        <Header themeColor={themeColor} />
+        <Header
+          themeColor={themeColor}
+          setIsViewingSettings={setIsViewingSettings}
+          isViewingSettings={isViewingSettings}
+        />
         <StatusBar style="auto" />
         <TodoInfo
           selectedTodo={todoOpen}
@@ -197,8 +205,12 @@ export default function App() {
     );
   } else if (isViewingSettings == true) {
     return (
-      <View>
-        <Header themeColor={themeColor} />
+      <View style={styles.container}>
+        <Header
+          themeColor={themeColor}
+          setIsViewingSettings={setIsViewingSettings}
+          isViewingSettings={isViewingSettings}
+        />
         <Settings
           setThemeColor={setThemeColor}
           storeData={storeData}
