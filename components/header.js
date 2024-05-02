@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { Image } from "expo-image";
 import {
@@ -6,9 +6,9 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const header = () => {
+const header = (themeColor) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderBottomColor: themeColor }]}>
       <View style={styles.logoContainer}>
         <Image source={require("../assets/Logo.svg")} style={styles.image} />
       </View>
@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#252121",
     height: hp("15%"),
     width: "100%",
-    borderBottomColor: "#BD8904",
     borderBottomWidth: 2,
     justifyContent: "center",
     alignItems: "center",
