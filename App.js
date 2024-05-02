@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Settings from "./components/settings";
 import { Appearance, useColorScheme } from "react-native";
 import TodoContainer from "./components/todoContainer";
@@ -11,15 +12,24 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Header from "./components/header";
-import { useEffect, useRef, useState, createContext, useContext } from "react";
+import { useEffect, useRef, useState } from "react";
 import todo from "./components/todo";
 import TodoInfo from "./components/todoInfo";
 
-const themeColorContext = createContext(null);
 export default function App() {
   useKeepAwake();
   const colorScheme = useColorScheme();
-  const [themeColor, setThemeColor] = useState("#BD8904");
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("themeColor");
+      if (value !== null) {
+        // console.log(value);
+        return value;
+      }
+    } catch (e) {}
+  };
+  const [themeColor, setThemeColor] = useState(getData());
 
   const db = SQLite.openDatabase("todo.db");
   // db.closeAsync();
@@ -29,11 +39,24 @@ export default function App() {
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
   const sortedTodosRef = useRef([]);
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("themeColor", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getData().then((color) => setThemeColor(color));
+  }, []);
+
   const addTodo = (newTodo) => {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO todos (title,  description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
         [
           newTodo.title,
           newTodo.description,
@@ -146,20 +169,18 @@ export default function App() {
 
   if (todoOpen == null && isViewingSettings == false) {
     return (
-      <themeColorContext.Provider>
-        <View style={styles.container}>
-          <Header themeColor={themeColor} />
-          <TodoContainer
-            todoOpen={todoOpen}
-            todos={todos}
-            isLoading={isLoading}
-            setTodoOpen={setTodoOpen}
-            editTodo={editTodo}
-          />
-          <StatusBar style="auto" />
-          <Footer addTodo={addTodo} />
-        </View>
-      </themeColorContext.Provider>
+      <View style={styles.container}>
+        <Header themeColor={themeColor} />
+        <TodoContainer
+          todoOpen={todoOpen}
+          todos={todos}
+          isLoading={isLoading}
+          setTodoOpen={setTodoOpen}
+          editTodo={editTodo}
+        />
+        <StatusBar style="auto" />
+        <Footer addTodo={addTodo} />
+      </View>
     );
   } else if (todoOpen != null && isViewingSettings == false) {
     return (
@@ -176,12 +197,14 @@ export default function App() {
     );
   } else if (isViewingSettings == true) {
     return (
-      <themeColorContext.Provider value={themeColor}>
-        <View>
-          <Header themeColor={themeColor} />
-          <Settings setThemeColor={setThemeColor} />
-        </View>
-      </themeColorContext.Provider>
+      <View>
+        <Header themeColor={themeColor} />
+        <Settings
+          setThemeColor={setThemeColor}
+          storeData={storeData}
+          themeColor={themeColor}
+        />
+      </View>
     );
   }
 }
