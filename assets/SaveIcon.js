@@ -6,6 +6,7 @@ const SvgComponent = ({ themeColor, containerStyle }) => (
     width={containerStyle.width}
     height={containerStyle.height}
     fill="none"
+    style={containerStyle}
   >
     <Path
       fill={themeColor}
