@@ -56,7 +56,6 @@ const Settings = ({ setThemeColor, themeColor, storeData }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#252121",
-    height: hp("100%"),
     width: "100%",
     flexDirection: "row",
     flexDirection: "column",
