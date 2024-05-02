@@ -102,22 +102,22 @@ const todoInfo = ({
         </Text>
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
-            <Image
+            {/* <Image
               source={require("../assets/backIcon.svg")}
               style={styles.backIcon}
-            />
+            /> */}
           </Pressable>
           <Pressable onPress={handleDeletePress}>
-            <Image
+            {/* <Image
               source={require("../assets/deleteicon.svg")}
               style={styles.deleteIcon}
-            />
+            /> */}
           </Pressable>
           <Pressable onPress={handleEditPress}>
-            <Image
+            {/* <Image
               source={require("../assets/editIcon.svg")}
               style={styles.editIcon}
-            />
+            /> */}
           </Pressable>
         </View>
       </Animated.View>
@@ -154,10 +154,10 @@ const todoInfo = ({
         />
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
-            <Image
+            {/* <Image
               source={require("../assets/backIcon.svg")}
               style={styles.backIcon}
-            />
+            /> */}
           </Pressable>
           <Pressable onPress={handleDeletePress}>
             <Image
