@@ -13,6 +13,8 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import PlusIcon from "../assets/PlusIcon.js";
+import SaveIcon from "../assets/SaveIcon.js";
 const Footer = ({ addTodo, themeColor }) => {
   const [showComponent, setShowComponent] = useState(false);
 
@@ -30,10 +32,11 @@ const Footer = ({ addTodo, themeColor }) => {
               return { opacity: pressed ? 0.5 : 1 };
             }}
           >
-            <Image
+            {/* <Image
               source={require("../assets/plusIcon.png")}
               style={styles.image}
-            />
+            /> */}
+            <PlusIcon containerStyle={styles.image} themeColor={themeColor} />
           </Pressable>
         </View>
       )}
@@ -122,8 +125,9 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
           />
         </Pressable>
         <Pressable onPress={handleSavePress}>
-          <Image
-            source={require("../assets/saveIcon.svg")}
+          <SaveIcon
+            themeColor={themeColor}
+            containerStyle={styles.saveIcon}
             style={styles.saveIcon}
           />
         </Pressable>
@@ -145,8 +149,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   image: {
-    height: hp("6.8%"),
-    width: wp("14%"),
+    height: hp("7.5%"),
+    width: wp("15%"),
   },
   addTodoContainer: {
     backgroundColor: "#252121",
