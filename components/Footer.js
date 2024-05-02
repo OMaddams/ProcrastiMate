@@ -72,6 +72,10 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
   };
 
   const handleSavePress = () => {
+    if (!taskTitle.trim()) {
+      alert("Please enter a title for your task");
+      return;
+    }
     const newTodo = {
       title: taskTitle,
       description: taskInfo,
