@@ -16,3 +16,4 @@ const SvgComponent = ({ themeColor, containerStyle }) => (
     />
   </Svg>
 );
+export default SvgComponent;
