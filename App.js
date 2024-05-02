@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import Settings from "./components/settings";
 import { Appearance, useColorScheme } from "react-native";
 import TodoContainer from "./components/todoContainer";
 import Footer from "./components/Footer";
@@ -10,18 +11,21 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Header from "./components/header";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, createContext, useContext } from "react";
 import todo from "./components/todo";
 import TodoInfo from "./components/todoInfo";
 
+const themeColorContext = createContext(null);
 export default function App() {
   useKeepAwake();
   const colorScheme = useColorScheme();
+  const [themeColor, setThemeColor] = useState("#BD8904");
 
   const db = SQLite.openDatabase("todo.db");
   // db.closeAsync();
   // db.deleteAsync();
   const [isLoading, setIsLoading] = useState(true);
+  const [isViewingSettings, setIsViewingSettings] = useState(true);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
   const sortedTodosRef = useRef([]);
@@ -140,25 +144,27 @@ export default function App() {
     setIsLoading(false);
   }, []);
 
-  if (todoOpen == null) {
+  if (todoOpen == null && isViewingSettings == false) {
     return (
-      <View style={styles.container}>
-        <Header />
-        <TodoContainer
-          todoOpen={todoOpen}
-          todos={todos}
-          isLoading={isLoading}
-          setTodoOpen={setTodoOpen}
-          editTodo={editTodo}
-        />
-        <StatusBar style="auto" />
-        <Footer addTodo={addTodo} />
-      </View>
+      <themeColorContext.Provider>
+        <View style={styles.container}>
+          <Header themeColor={themeColor} />
+          <TodoContainer
+            todoOpen={todoOpen}
+            todos={todos}
+            isLoading={isLoading}
+            setTodoOpen={setTodoOpen}
+            editTodo={editTodo}
+          />
+          <StatusBar style="auto" />
+          <Footer addTodo={addTodo} />
+        </View>
+      </themeColorContext.Provider>
     );
-  } else {
+  } else if (todoOpen != null && isViewingSettings == false) {
     return (
       <View style={styles.container}>
-        <Header />
+        <Header themeColor={themeColor} />
         <StatusBar style="auto" />
         <TodoInfo
           selectedTodo={todoOpen}
@@ -167,6 +173,15 @@ export default function App() {
           editTodo={editTodo}
         />
       </View>
+    );
+  } else if (isViewingSettings == true) {
+    return (
+      <themeColorContext.Provider value={themeColor}>
+        <View>
+          <Header themeColor={themeColor} />
+          <Settings setThemeColor={setThemeColor} />
+        </View>
+      </themeColorContext.Provider>
     );
   }
 }
