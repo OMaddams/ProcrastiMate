@@ -15,7 +15,13 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
+const todoInfo = ({
+  selectedTodo,
+  deleteTodo,
+  setTodoOpen,
+  editTodo,
+  themeColor,
+}) => {
   const [animation] = useState(new Animated.Value(0));
   const [is_editing, setIsEditing] = useState(false);
   const [newTaskTitle, setTitle] = useState(selectedTodo.title || "");
@@ -86,10 +92,14 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
           ],
         }}
       >
-        <Text style={styles.title}>Title:</Text>
-        <Text style={styles.todoTitle}>{selectedTodo.title}</Text>
-        <Text style={styles.title}>Task Info:</Text>
-        <Text style={styles.todoInfo}>{selectedTodo.description}</Text>
+        <Text style={[styles.title, { color: themeColor }]}>Title:</Text>
+        <Text style={[styles.todoTitle, { color: themeColor }]}>
+          {selectedTodo.title}
+        </Text>
+        <Text style={[styles.title, { color: themeColor }]}>Task Info:</Text>
+        <Text style={[styles.todoInfo, { color: themeColor }]}>
+          {selectedTodo.description}
+        </Text>
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
             <Image
@@ -117,6 +127,7 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
       <Animated.View
         style={{
           ...styles.addTodoContainer,
+          borderTopColor: themeColor,
           transform: [
             {
               translateY: animation.interpolate({
@@ -127,17 +138,17 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
           ],
         }}
       >
-        <Text style={styles.title}>Title:</Text>
+        <Text style={[styles.title, { color: themeColor }]}>Title:</Text>
         <TextInput
           value={newTaskTitle}
-          style={styles.titleInput}
+          style={[styles.titleInput, { color: themeColor }]}
           onChangeText={setTitle}
           defaultValue={selectedTodo.title}
         />
-        <Text style={styles.title}>Task Info:</Text>
+        <Text style={[styles.title, { color: themeColor }]}>Task Info:</Text>
         <TextInput
           value={newTaskInfo}
-          style={styles.taskInfoInput}
+          style={[styles.taskInfoInput, { color: themeColor }]}
           onChangeText={setInfo}
           defaultValue={selectedTodo.description}
         />
@@ -171,7 +182,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#252121",
     height: hp("15%"),
     width: "100%",
-    borderTopColor: "#BD8904",
     borderTopWidth: 2,
     justifyContent: "center",
     alignItems: "center",
@@ -186,7 +196,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#252121",
     height: hp("100%"),
     width: "100%",
-    borderTopColor: "#BD8904",
     borderTopWidth: 2,
     alignItems: "center",
     flexDirection: "column",
@@ -194,21 +203,18 @@ const styles = StyleSheet.create({
   },
   todoTitle: {
     fontSize: 24,
-    color: "#BD8904",
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
   },
   todoInfo: {
     fontSize: 24,
-    color: "#BD8904",
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
   },
   title: {
     fontSize: 24,
-    color: "#BD8904",
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
@@ -246,7 +252,6 @@ const styles = StyleSheet.create({
     height: hp("8%"),
     color: "#fff",
     backgroundColor: "#3A3737",
-    borderColor: "#BD8904",
     borderRadius: 15,
     fontSize: 18,
     color: "#BD8904",
@@ -258,7 +263,6 @@ const styles = StyleSheet.create({
     height: hp("15%"),
     color: "#fff",
     backgroundColor: "#3A3737",
-    borderColor: "#BD8904",
     borderRadius: 15,
     fontSize: 18,
     color: "#BD8904",

@@ -178,6 +178,7 @@ export default function App() {
         <TodoContainer
           todoOpen={todoOpen}
           todos={todos}
+          themeColor={themeColor}
           isLoading={isLoading}
           setTodoOpen={setTodoOpen}
           editTodo={editTodo}
@@ -200,6 +201,7 @@ export default function App() {
           deleteTodo={deleteTodo}
           setTodoOpen={setTodoOpen}
           editTodo={editTodo}
+          themeColor={themeColor}
         />
       </View>
     );
