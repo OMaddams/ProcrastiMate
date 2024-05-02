@@ -119,10 +119,7 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
       />
       <View style={styles.buttonContainer}>
         <Pressable onPress={handleBackPress}>
-          <Image
-            source={require("../assets/backIcon.svg")}
-            style={styles.backIcon}
-          />
+          {/* <Image style={styles.backIcon} /> */}
         </Pressable>
         <Pressable onPress={handleSavePress}>
           <SaveIcon

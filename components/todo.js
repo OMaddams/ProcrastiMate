@@ -55,14 +55,14 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
         </Pressable>
         <Text style={[styles.text, { color: themeColor }]}>{todoo.title}</Text>
         <Pressable onPress={() => handleCompletePress()}>
-          <Image
+          {/* <Image
             style={styles.checkmark}
             source={
               +todoo.is_completed == true
                 ? require("../assets/completeCheck.svg")
                 : require("../assets/uncompleteCheck.svg")
             }
-          />
+          /> */}
         </Pressable>
       </View>
     </Pressable>
