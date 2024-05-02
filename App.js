@@ -1,5 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Settings from "./components/settings";
 import { Appearance, useColorScheme } from "react-native";
 import TodoContainer from "./components/todoContainer";
 import Footer from "./components/Footer";
@@ -18,18 +20,43 @@ export default function App() {
   useKeepAwake();
   const colorScheme = useColorScheme();
 
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("themeColor");
+      if (value !== null) {
+        // console.log(value);
+        return value;
+      }
+    } catch (e) {}
+  };
+  const [themeColor, setThemeColor] = useState(getData());
+
   const db = SQLite.openDatabase("todo.db");
   // db.closeAsync();
   // db.deleteAsync();
   const [isLoading, setIsLoading] = useState(true);
+  const [isViewingSettings, setIsViewingSettings] = useState(false);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
   const sortedTodosRef = useRef([]);
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("themeColor", value);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getData().then((color) => setThemeColor(color));
+  }, []);
+
   const addTodo = (newTodo) => {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO todos (title, description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO todos (title,  description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
         [
           newTodo.title,
           newTodo.description,
@@ -140,10 +167,14 @@ export default function App() {
     setIsLoading(false);
   }, []);
 
-  if (todoOpen == null) {
+  if (todoOpen == null && isViewingSettings == false) {
     return (
       <View style={styles.container}>
-        <Header />
+        <Header
+          themeColor={themeColor}
+          setIsViewingSettings={setIsViewingSettings}
+          isViewingSettings={isViewingSettings}
+        />
         <TodoContainer
           todoOpen={todoOpen}
           todos={todos}
@@ -155,16 +186,36 @@ export default function App() {
         <Footer addTodo={addTodo} />
       </View>
     );
-  } else {
+  } else if (todoOpen != null && isViewingSettings == false) {
     return (
       <View style={styles.container}>
-        <Header />
+        <Header
+          themeColor={themeColor}
+          setIsViewingSettings={setIsViewingSettings}
+          isViewingSettings={isViewingSettings}
+        />
         <StatusBar style="auto" />
         <TodoInfo
           selectedTodo={todoOpen}
           deleteTodo={deleteTodo}
           setTodoOpen={setTodoOpen}
           editTodo={editTodo}
+        />
+      </View>
+    );
+  } else if (isViewingSettings == true) {
+    return (
+      <View style={styles.container}>
+        <Header
+          themeColor={themeColor}
+          setIsViewingSettings={setIsViewingSettings}
+          isViewingSettings={isViewingSettings}
+        />
+        <StatusBar style="auto" />
+        <Settings
+          setThemeColor={setThemeColor}
+          storeData={storeData}
+          themeColor={themeColor}
         />
       </View>
     );
