@@ -211,6 +211,7 @@ export default function App() {
           setIsViewingSettings={setIsViewingSettings}
           isViewingSettings={isViewingSettings}
         />
+        <StatusBar style="auto" />
         <Settings
           setThemeColor={setThemeColor}
           storeData={storeData}
