@@ -10,7 +10,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Header from "./components/header";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import todo from "./components/todo";
 import TodoInfo from "./components/todoInfo";
 
@@ -24,6 +24,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [todoOpen, setTodoOpen] = useState(null);
   const [todos, setTodos] = useState([]);
+  const sortedTodosRef = useRef([]);
   const addTodo = (newTodo) => {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
@@ -36,20 +37,41 @@ export default function App() {
           newTodo.isPinned,
         ],
         (txtObj, resultSet) => {
-          let existingTodos = [...todos];
-          existingTodos.push({
+          //let existingTodos = [...todos];
+          const newTodoItem = {
             id: resultSet.insertId,
             title: newTodo.title,
             description: newTodo.description,
             is_completed: newTodo.isCompleted,
             is_pinned: newTodo.isPinned,
-          });
-          setTodos(existingTodos);
+          };
+          sortedTodosRef.current.push(newTodoItem);
+          setTodos([...sortedTodosRef.current]);
         },
         (txtObj, error) => console.log(error)
       );
     });
   };
+
+  useEffect(() => {
+    console.log("useeffect");
+    const sortedTodos = sortTodos(todos);
+    if (!arraysEqual(sortedTodos, sortedTodosRef.current)) {
+      sortedTodosRef.current = sortTodos(todos);
+      setTodos([...sortedTodosRef.current]);
+    }
+  }, [todos]);
+
+  function arraysEqual(a, b) {
+    if (a === b) return true;
+    if (a == null || b == null) return false;
+    if (a.length !== b.length) return false;
+
+    for (let i = 0; i < a.length; ++i) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
 
   const deleteTodo = (id) => {
     db.transaction((tx) => {
@@ -81,15 +103,22 @@ export default function App() {
           todos[editedTodoIndex] = {
             id: todo.id,
             title: todo.title,
-            description: +todo.description,
+            description: todo.description,
             is_completed: +todo.is_completed,
-            is_pinned: todo.is_pinned,
+            is_pinned: +todo.is_pinned,
           };
         }
       );
     });
+    let sortedTodos = sortTodos(todos);
+    setTodos([...sortedTodos]);
   };
 
+  function sortTodos(todosArray) {
+    return todosArray.sort((a, b) => {
+      return b.is_pinned - a.is_pinned || a.is_completed - b.is_completed;
+    });
+  }
   useEffect(() => {
     // db.transaction((tx) => {
     //   tx.executeSql("DROP TABLE IF EXISTS todos");
@@ -102,7 +131,7 @@ export default function App() {
 
     db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM todos",
+        "SELECT * FROM todos ORDER BY is_pinned DESC, is_completed ASC",
         null,
         (txtObj, resultSet) => setTodos(resultSet.rows._array),
         (txtObj, error) => console.log(error)
