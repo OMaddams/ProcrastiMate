@@ -6,7 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const header = (themeColor) => {
+const header = ({ themeColor }) => {
   return (
     <View style={[styles.container, { borderBottomColor: themeColor }]}>
       <View style={styles.logoContainer}>

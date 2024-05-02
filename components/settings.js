@@ -5,24 +5,28 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const Settings = ({ setThemeColor, themeColor }) => {
+const Settings = ({ setThemeColor, themeColor, storeData }) => {
+  const storeThemeColor = (color) => {
+    setThemeColor(color);
+    storeData(color);
+  };
   const handleBluePress = () => {
-    setThemeColor("#6495ED");
+    storeThemeColor("#6495ED");
   };
   const handleRedPress = () => {
-    setThemeColor("#FF6347");
+    storeThemeColor("#FF6347");
   };
 
   const handleGreenPress = () => {
-    setThemeColor("#32CD32");
+    storeThemeColor("#32CD32");
   };
 
   const handleYellowPress = () => {
-    setThemeColor("#BD8904");
+    storeThemeColor("#BD8904");
   };
 
   const handlePurplePress = () => {
-    setThemeColor("#A020F0");
+    storeThemeColor("#A020F0");
   };
   return (
     <View style={styles.container}>
@@ -54,12 +58,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#252121",
     height: hp("100%"),
     width: "100%",
-    borderTopColor: "#BD8904",
-    borderTopWidth: 2,
     flexDirection: "row",
     flexDirection: "column",
     alignItems: "center",
-    borderRadius: 5,
   },
   boxContainer: {
     flexDirection: "row",
