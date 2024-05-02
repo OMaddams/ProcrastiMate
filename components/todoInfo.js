@@ -137,8 +137,8 @@ const todoInfo = ({ selectedTodo, deleteTodo, setTodoOpen, editTodo }) => {
         <Text style={styles.title}>Task Info:</Text>
         <TextInput
           value={newTaskInfo}
-          style={styles.titleInput}
-          onChangeText={setTitle}
+          style={styles.taskInfoInput}
+          onChangeText={setInfo}
           defaultValue={selectedTodo.description}
         />
         <View style={styles.buttonContainer}>
