@@ -7,7 +7,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import CompleteCheck from "../assets/completeCheck.js";
+import CompleteCheck from "../assets/CompleteCheck.js";
 import UncompleteIcon from "../assets/UncompleteIcon.js";
 import Pinned from "../assets/PinnedIcon.js";
 import UnPinned from "../assets/UnpinnedIcon.js";
