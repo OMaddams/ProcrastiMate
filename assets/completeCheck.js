@@ -1,18 +1,18 @@
 import * as React from "react";
-import Svg, { Circle } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 const SvgComponent = ({ themeColor, containerStyle }) => (
   <Svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={containerStyle.width}
-    height={containerStyle.height}
+    width="33"
+    height="33"
+    viewBox="0 0 33 33"
     fill="none"
-    style={containerStyle}
+    xmlns="http://www.w3.org/2000/svg"
   >
     <Path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M16.2036 33C25.1526 33 32.4072 25.6127 32.4072 16.5C32.4072 7.3873 25.1526 0 16.2036 0C7.2546 0 0 7.3873 0 16.5C0 25.6127 7.2546 33 16.2036 33ZM15.9174 22.941L24.6566 12.2622L20.7872 9.09556L13.8134 17.6172L10.5229 14.2666L6.9555 17.77L12.199 23.1094L14.1521 25.0982L15.9174 22.941Z"
       fill={themeColor}
-      fillRule="evenodd"
-      d="M62 126.125c33.966 0 61.5-28.038 61.5-62.625S95.966.875 62 .875C28.035.875.5 28.913.5 63.5s27.535 62.625 61.5 62.625Zm-2.964-38.583 34.167-41.75-7.74-6.334-30.635 37.436-16.594-16.897-7.135 7.006 20.5 20.875 3.906 3.978 3.531-4.314Z"
-      clipRule="evenodd"
     />
   </Svg>
 );

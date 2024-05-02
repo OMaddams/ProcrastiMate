@@ -14,6 +14,7 @@ import {
 } from "react-native-responsive-screen";
 
 import PlusIcon from "../assets/PlusIcon.js";
+import BackIcon from "../assets/BackIcon.js";
 import SaveIcon from "../assets/SaveIcon.js";
 const Footer = ({ addTodo, themeColor }) => {
   const [showComponent, setShowComponent] = useState(false);
@@ -119,7 +120,11 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
       />
       <View style={styles.buttonContainer}>
         <Pressable onPress={handleBackPress}>
-          {/* <Image style={styles.backIcon} /> */}
+          <BackIcon
+            themeColor={themeColor}
+            containerStyle={styles.backIcon}
+            style={styles.backicon}
+          />
         </Pressable>
         <Pressable onPress={handleSavePress}>
           <SaveIcon
@@ -146,8 +151,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   image: {
-    height: hp("7.5%"),
-    width: wp("15%"),
+    height: hp("7%"),
+    width: wp("12%"),
   },
   addTodoContainer: {
     backgroundColor: "#252121",
@@ -187,14 +192,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   backIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("5%"),
+    height: hp("10%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   saveIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("12%"),
+    height: hp("10%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },

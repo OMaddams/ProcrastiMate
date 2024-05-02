@@ -7,6 +7,10 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import CompleteCheck from "../assets/completeCheck.js";
+import UncompleteIcon from "../assets/UncompleteIcon.js";
+import Pinned from "../assets/PinnedIcon.js";
+import UnPinned from "../assets/UnpinnedIcon.js";
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
 const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
@@ -43,26 +47,36 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
-        <Pressable onPress={() => handlePinPress()}>
-          <Image
-            style={styles.pin}
-            source={
-              +todoo.is_pinned == true
-                ? require("../assets/pinned.svg")
-                : require("../assets/unPinned.svg")
-            }
-          />
+        <Pressable onPress={handlePinPress}>
+          {todoo.is_pinned ? (
+            <Pinned
+              themeColor={themeColor}
+              containerStyle={styles.pin}
+              style={styles.pin}
+            />
+          ) : (
+            <UnPinned
+              themeColor={themeColor}
+              containerStyle={styles.pin}
+              style={styles.pin}
+            />
+          )}
         </Pressable>
         <Text style={[styles.text, { color: themeColor }]}>{todoo.title}</Text>
-        <Pressable onPress={() => handleCompletePress()}>
-          {/* <Image
-            style={styles.checkmark}
-            source={
-              +todoo.is_completed == true
-                ? require("../assets/completeCheck.svg")
-                : require("../assets/uncompleteCheck.svg")
-            }
-          /> */}
+        <Pressable onPress={handleCompletePress}>
+          {todoo.is_completed ? (
+            <CompleteCheck
+              themeColor={themeColor}
+              containerStyle={styles.checkmark}
+              style={styles.checkmark}
+            />
+          ) : (
+            <UncompleteIcon
+              themeColor={themeColor}
+              containerStyle={styles.checkmark}
+              style={styles.checkmark}
+            />
+          )}
         </Pressable>
       </View>
     </Pressable>
@@ -86,12 +100,12 @@ const styles = StyleSheet.create({
     marginTop: hp("2%"),
   },
   pin: {
-    width: wp("7%"),
-    height: hp("5%"),
+    width: wp("10%"),
+    height: hp("4%"),
   },
   checkmark: {
     width: wp("10%"),
-    height: hp("5%"),
+    height: hp("4%"),
   },
   text: {
     fontSize: 18,
