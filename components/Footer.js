@@ -13,7 +13,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-const Footer = ({ addTodo }) => {
+const Footer = ({ addTodo, themeColor }) => {
   const [showComponent, setShowComponent] = useState(false);
 
   const handlePress = () => {
@@ -21,7 +21,7 @@ const Footer = ({ addTodo }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { borderTopColor: themeColor }]}>
       {!showComponent && (
         <View style={styles.footer}>
           <Pressable
@@ -38,13 +38,17 @@ const Footer = ({ addTodo }) => {
         </View>
       )}
       {showComponent && (
-        <AddTodoWindow setShowComponent={setShowComponent} addTodo={addTodo} />
+        <AddTodoWindow
+          setShowComponent={setShowComponent}
+          addTodo={addTodo}
+          themeColor={themeColor}
+        />
       )}
     </View>
   );
 };
 
-const AddTodoWindow = ({ setShowComponent, addTodo }) => {
+const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
   const [taskTitle, setTitle] = useState("");
   const [taskInfo, setInfo] = useState("");
   const [animation] = useState(new Animated.Value(0));
@@ -83,6 +87,7 @@ const AddTodoWindow = ({ setShowComponent, addTodo }) => {
     <Animated.View
       style={{
         ...styles.addTodoContainer,
+        borderTopColor: themeColor,
         transform: [
           {
             translateY: animation.interpolate({
@@ -93,16 +98,16 @@ const AddTodoWindow = ({ setShowComponent, addTodo }) => {
         ],
       }}
     >
-      <Text style={styles.title}>Title</Text>
+      <Text style={[styles.title, { color: themeColor }]}>Title</Text>
       <TextInput
         value={taskTitle}
-        style={styles.titleInput}
+        style={[styles.titleInput, { color: themeColor }]}
         onChangeText={setTitle}
       />
-      <Text style={styles.title}>Task Info</Text>
+      <Text style={[styles.title, { color: themeColor }]}>Task Info</Text>
       <TextInput
         value={taskInfo}
-        style={styles.taskInfoInput}
+        style={[styles.taskInfoInput, { color: themeColor }]}
         onChangeText={setInfo}
       />
       <View style={styles.buttonContainer}>
@@ -143,7 +148,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#252121",
     height: hp("100%"),
     width: "100%",
-    borderTopColor: "#BD8904",
     borderTopWidth: 2,
     alignItems: "center",
     flexDirection: "column",
@@ -153,29 +157,23 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     width: wp("80%"),
     height: hp("8%"),
-    color: "#fff",
     backgroundColor: "#3A3737",
-    borderColor: "#BD8904",
     borderRadius: 15,
     fontSize: 18,
-    color: "#BD8904",
     textAlign: "center",
   },
   taskInfoInput: {
     marginTop: "5%",
     width: wp("80%"),
     height: hp("15%"),
-    color: "#fff",
     backgroundColor: "#3A3737",
     borderColor: "#BD8904",
     borderRadius: 15,
     fontSize: 18,
-    color: "#BD8904",
     textAlign: "center",
   },
   title: {
     fontSize: 24,
-    color: "#BD8904",
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",

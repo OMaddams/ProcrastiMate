@@ -183,7 +183,7 @@ export default function App() {
           editTodo={editTodo}
         />
         <StatusBar style="auto" />
-        <Footer addTodo={addTodo} />
+        <Footer addTodo={addTodo} themeColor={themeColor} />
       </View>
     );
   } else if (todoOpen != null && isViewingSettings == false) {
