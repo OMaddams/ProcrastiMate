@@ -6,6 +6,11 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import Logo from "../assets/Logo.js";
+import SettingsIcon from "../assets/SettingsIcon.js";
+
+
+
 const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
   const handleSettingsPress = () => {
     setIsViewingSettings(!isViewingSettings);
@@ -15,14 +20,17 @@ const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
   return (
     <View style={[styles.container, { borderBottomColor: themeColor }]}>
       <View style={styles.logoContainer}>
-        <Image source={require("../assets/Logo.svg")} style={styles.image} />
+        {/* <Image source={require("../assets/Logo.svg")} style={styles.image} /> */}
+        <Logo containerStyle={styles.image} themeColor={themeColor} />
       </View>
+
       <Pressable onPress={handleSettingsPress}>
-        <Image
-          source={require("../assets/settingsIcon.svg")}
-          style={styles.settingsIcon}
-        />
+       <SettingsIcon
+        themeColor={themeColor}
+        containerStyle={styles.settingsIcon}
+      />
       </Pressable>
+
     </View>
   );
 };
