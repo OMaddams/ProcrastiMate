@@ -178,12 +178,13 @@ export default function App() {
         <TodoContainer
           todoOpen={todoOpen}
           todos={todos}
+          themeColor={themeColor}
           isLoading={isLoading}
           setTodoOpen={setTodoOpen}
           editTodo={editTodo}
         />
         <StatusBar style="auto" />
-        <Footer addTodo={addTodo} />
+        <Footer addTodo={addTodo} themeColor={themeColor} />
       </View>
     );
   } else if (todoOpen != null && isViewingSettings == false) {
@@ -200,6 +201,7 @@ export default function App() {
           deleteTodo={deleteTodo}
           setTodoOpen={setTodoOpen}
           editTodo={editTodo}
+          themeColor={themeColor}
         />
       </View>
     );

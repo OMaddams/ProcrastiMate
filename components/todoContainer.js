@@ -13,6 +13,7 @@ const todoContainer = ({
   isLoading,
   setTodoOpen,
   editTodo,
+  themeColor,
 }) => {
   if (isLoading) {
     return (
@@ -30,6 +31,7 @@ const todoContainer = ({
             todoo={todo}
             setTodoOpen={setTodoOpen}
             editTodo={editTodo}
+            themeColor={themeColor}
           />
         ))}
       </ScrollView>

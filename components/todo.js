@@ -9,7 +9,7 @@ import {
 
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 
-const todo = ({ todoo, setTodoOpen, editTodo }) => {
+const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
   const [isPinned, setIsPinned] = useState(todoo.is_pinned);
   console.log(todoo);
@@ -53,7 +53,7 @@ const todo = ({ todoo, setTodoOpen, editTodo }) => {
             }
           />
         </Pressable>
-        <Text style={styles.text}>{todoo.title}</Text>
+        <Text style={[styles.text, { color: themeColor }]}>{todoo.title}</Text>
         <Pressable onPress={() => handleCompletePress()}>
           <Image
             style={styles.checkmark}
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
     height: hp("5%"),
   },
   text: {
-    color: "#BD8904",
     fontSize: 18,
     fontFamily: "Inter_500Medium",
   },
