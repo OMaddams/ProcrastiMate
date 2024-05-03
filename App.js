@@ -15,10 +15,13 @@ import Header from "./components/header";
 import { useEffect, useRef, useState } from "react";
 import todo from "./components/todo";
 import TodoInfo from "./components/todoInfo";
+import notifee from "@notifee/react-native";
 
 export default function App() {
   useKeepAwake();
   const colorScheme = useColorScheme();
+
+  notifee.onBackgroundEvent(() => {});
 
   const getData = async () => {
     try {

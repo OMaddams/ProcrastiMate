@@ -18,11 +18,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.omaddams.ProcrastiMate"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": ["expo-font"]
+    "plugins": ["expo-font"],
+    "extra": {
+      "eas": {
+        "projectId": "9b84e7b8-c94f-4a3d-9247-3892a3d5f591"
+      }
+    },
+    "owner": "omaddams"
   }
 }

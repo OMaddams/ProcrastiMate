@@ -12,6 +12,7 @@ import UncompleteIcon from "../assets/UncompleteIcon.js";
 import Pinned from "../assets/PinnedIcon.js";
 import UnPinned from "../assets/UnpinnedIcon.js";
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
+import notifee from "@notifee/react-native";
 
 const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
@@ -32,6 +33,11 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
 
   function handlePinPress() {
     const currentState = isPinned;
+    if (currentState) {
+      cancel().catch((e) => console.log(e));
+    } else {
+      onDisplayNotification();
+    }
     setIsPinned(!currentState);
     todoo.is_pinned = !currentState;
     editTodo(todoo);
@@ -42,6 +48,30 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
     setIsComplete(!currentState);
     todoo.is_completed = !currentState;
     editTodo(todoo);
+  }
+
+  async function onDisplayNotification() {
+    await notifee.requestPermission();
+    const channelId = await notifee.createChannel({
+      id: "default",
+      name: "Default Channel",
+    });
+    console.log("test notification");
+
+    await notifee.displayNotification({
+      id: `${todoo.id}`,
+      title: "Todo",
+      body: todoo.title,
+      android: {
+        channelId,
+        ongoing: true,
+        autoCancel: false,
+      },
+    });
+  }
+
+  async function cancel() {
+    await notifee.cancelNotification(`${todoo.id}`);
   }
 
   return (
