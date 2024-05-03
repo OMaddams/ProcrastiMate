@@ -151,8 +151,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   image: {
-    height: hp("7%"),
-    width: wp("12%"),
+    height: hp("8%"),
+    width: wp("15%"),
   },
   addTodoContainer: {
     backgroundColor: "#252121",
@@ -192,14 +192,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   backIcon: {
-    width: wp("5%"),
-    height: hp("10%"),
+    width: wp("16%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   saveIcon: {
-    width: wp("12%"),
-    height: hp("10%"),
+    width: wp("15%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },

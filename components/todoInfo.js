@@ -86,6 +86,7 @@ const todoInfo = ({
       <Animated.View
         style={{
           ...styles.addTodoContainer,
+          borderTopColor: themeColor,
           transform: [
             {
               translateY: animation.interpolate({
@@ -234,25 +235,25 @@ const styles = StyleSheet.create({
   },
   deleteIcon: {
     width: wp("15%"),
-    height: hp("6%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   editIcon: {
     width: wp("15%"),
-    height: hp("6%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   backIcon: {
-    width: wp("15%"),
-    height: hp("6%"),
+    width: wp("16%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   saveIcon: {
     width: wp("15%"),
-    height: hp("6%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },

@@ -101,11 +101,11 @@ const styles = StyleSheet.create({
   },
   pin: {
     width: wp("10%"),
-    height: hp("4%"),
+    height: hp("5%"),
   },
   checkmark: {
-    width: wp("12%"),
-    height: hp("6%"),
+    width: wp("14%"),
+    height: hp("7%"),
   },
   text: {
     fontSize: 18,
