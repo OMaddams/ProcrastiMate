@@ -155,6 +155,16 @@ export default function App() {
       return b.is_pinned - a.is_pinned || a.is_completed - b.is_completed;
     });
   }
+
+  function deleteComplete() {
+    currentTodos = todos;
+    currentTodos.forEach((todo) => {
+      if (!todo.is_daily && todo.is_completed) {
+        deleteTodo(todo.id);
+      }
+    });
+  }
+
   useEffect(() => {
     // db.transaction((tx) => {
     //   tx.executeSql("DROP TABLE IF EXISTS todos");
