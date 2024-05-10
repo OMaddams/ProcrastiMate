@@ -13,7 +13,7 @@ import Pinned from "../assets/PinnedIcon.js";
 import UnPinned from "../assets/UnpinnedIcon.js";
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 import notifee from "@notifee/react-native";
-import LockIcon from "../assets/LockIcon.js";
+import SmallLockIcon from "../assets/smallLockIcon.js";
 
 const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
@@ -94,10 +94,11 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
               />
             )}
           </Pressable>
+
           {todoo.is_daily ? (
-            <LockIcon
+            <SmallLockIcon
               themeColor={themeColor}
-              style={styles.lockIcon}
+              style={[styles.lockIcon]}
               containerStyle={styles.lockIcon}
             />
           ) : (
@@ -169,15 +170,15 @@ const styles = StyleSheet.create({
     textDecorationLine: "line-through",
   },
   lockIcon: {
-    width: wp("10%"),
+    width: wp("5%"),
     height: hp("6%"),
-    marginLeft: wp("2%"),
+    marginLeft: wp("15%"),
   },
   iconContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
+    minWidth: wp("15%"),
+    justifyContent: "space-between",
   },
 });
 
