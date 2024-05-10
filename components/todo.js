@@ -92,7 +92,13 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
             />
           )}
         </Pressable>
-        <Text style={[styles.text, { color: themeColor }]}>
+        <Text
+          style={[
+            styles.text,
+            { color: themeColor },
+            todoo.is_completed ? styles.completedText : null,
+          ]}
+        >
           {todoo.title.length > 25
             ? todoo.title.substring(0, 25) + "..."
             : todoo.title}
@@ -145,6 +151,9 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontFamily: "Inter_500Medium",
+  },
+  completedText: {
+    textDecorationLine: "line-through",
   },
 });
 

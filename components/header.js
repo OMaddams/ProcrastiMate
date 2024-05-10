@@ -78,6 +78,6 @@ const styles = StyleSheet.create({
     width: wp("11%"),
     height: hp("5.4%"),
   },
-  trashIcon: { marginTop: hp("4%") },
+  trashIcon: { marginTop: hp("2.5%"), marginLeft: wp("1.5%") },
 });
 export default header;
