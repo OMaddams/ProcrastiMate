@@ -29,6 +29,8 @@ export default function App() {
       if (value !== null) {
         // console.log(value);
         return value;
+      } else {
+        return "BD8904";
       }
     } catch (e) {}
   };
