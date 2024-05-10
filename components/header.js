@@ -8,26 +8,39 @@ import {
 
 import Logo from "../assets/Logo.js";
 import SettingsIcon from "../assets/SettingsIcon.js";
+import TrashIcon from "../assets/TrashIconv2.js";
 
-const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
+const header = ({
+  themeColor,
+  setIsViewingSettings,
+  isViewingSettings,
+  clearCompleted,
+}) => {
   const handleSettingsPress = () => {
     setIsViewingSettings(!isViewingSettings);
     console.log(isViewingSettings);
   };
 
   return (
-    <View style={[styles.container, { borderBottomColor: themeColor }]}>
-      <View style={styles.logoContainer}>
-        {/* <Image source={require("../assets/Logo.svg")} style={styles.image} /> */}
-        <Logo containerStyle={styles.image} themeColor={themeColor} />
-      </View>
+    <View style={[styles.mainContainer, { borderBottomColor: themeColor }]}>
+      <View style={[styles.container, { borderBottomColor: themeColor }]}>
+        <Pressable onPress={clearCompleted}>
+          <TrashIcon
+            themeColor={themeColor}
+            containerStyle={styles.trashIcon}
+          />
+        </Pressable>
+        <View style={styles.logoContainer}>
+          <Logo containerStyle={styles.image} themeColor={themeColor} />
+        </View>
 
-      <Pressable onPress={handleSettingsPress}>
-        <SettingsIcon
-          themeColor={themeColor}
-          containerStyle={styles.settingsIcon}
-        />
-      </Pressable>
+        <Pressable onPress={handleSettingsPress}>
+          <SettingsIcon
+            themeColor={themeColor}
+            containerStyle={styles.settingsIcon}
+          />
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -37,16 +50,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#252121",
     height: hp("15%"),
     width: "100%",
-    borderBottomWidth: 2,
+
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
   },
+  mainContainer: {
+    justifyContent: "space-between",
+    display: "flex",
+    borderBottomWidth: 2,
+    paddingHorizontal: wp("5%"),
+    alignItems: "center",
+  },
   logoContainer: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    marginLeft: wp("15%"),
   },
   image: {
     marginTop: hp("3%"),
@@ -55,10 +74,10 @@ const styles = StyleSheet.create({
   },
 
   settingsIcon: {
-    marginRight: wp("5%"),
-    marginTop: hp("3"),
+    marginTop: hp("4%"),
     width: wp("11%"),
     height: hp("5.4%"),
   },
+  trashIcon: { marginTop: hp("2.5%"), marginLeft: wp("1.5%") },
 });
 export default header;

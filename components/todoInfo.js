@@ -18,7 +18,8 @@ import BackIcon from "../assets/BackIcon.js";
 import DeleteIcon from "../assets/DeleteIcon.js";
 import EditIcon from "../assets/EditIcon.js";
 import SaveIcon from "../assets/SaveIcon.js";
-
+import LockIcon from "../assets/LockIcon.js";
+import UnlockIcon from "../assets/unlockIcon.js";
 const todoInfo = ({
   selectedTodo,
   deleteTodo,
@@ -74,6 +75,18 @@ const todoInfo = ({
     setIsEditing(true);
   };
 
+  const handleLockPress = () => {
+    if (selectedTodo.is_daily) {
+      selectedTodo.is_daily = false;
+      console.log(selectedTodo);
+      editTodo(selectedTodo);
+    } else {
+      selectedTodo.is_daily = true;
+      console.log(selectedTodo);
+      editTodo(selectedTodo);
+    }
+  };
+
   const handleSaveChangesPress = () => {
     selectedTodo.title = newTaskTitle;
     selectedTodo.description = newTaskInfo;
@@ -127,6 +140,22 @@ const todoInfo = ({
               style={styles.editIcon}
             />
           </Pressable>
+
+          <Pressable onPress={handleLockPress}>
+            {selectedTodo.is_daily ? (
+              <LockIcon
+                themeColor={themeColor}
+                style={styles.lockIcon}
+                containerStyle={styles.lockIcon}
+              />
+            ) : (
+              <UnlockIcon
+                themeColor={themeColor}
+                style={styles.lockIcon}
+                containerStyle={styles.lockIcon}
+              />
+            )}
+          </Pressable>
         </View>
       </Animated.View>
     );
@@ -152,6 +181,8 @@ const todoInfo = ({
           style={[styles.titleInput, { color: themeColor }]}
           onChangeText={setTitle}
           defaultValue={selectedTodo.title}
+          multiline={true}
+          numberOfLines={2}
         />
         <Text style={[styles.title, { color: themeColor }]}>Task Info:</Text>
         <TextInput
@@ -159,6 +190,8 @@ const todoInfo = ({
           style={[styles.taskInfoInput, { color: themeColor }]}
           onChangeText={setInfo}
           defaultValue={selectedTodo.description}
+          multiline={true}
+          numberOfLines={4}
         />
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
@@ -217,12 +250,16 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
+    marginRight: wp("10%"),
+    marginLeft: wp("10%"),
   },
   todoInfo: {
     fontSize: 24,
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
+    marginRight: wp("10%"),
+    marginLeft: wp("10%"),
   },
   title: {
     fontSize: 24,
@@ -257,16 +294,23 @@ const styles = StyleSheet.create({
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
+  lockIcon: {
+    width: wp("15%"),
+    height: hp("8%"),
+    marginTop: hp("3%"),
+    marginLeft: wp("5%"),
+  },
   titleInput: {
     marginTop: "5%",
     width: wp("80%"),
     height: hp("8%"),
     color: "#fff",
     backgroundColor: "#3A3737",
-    borderRadius: 15,
+    borderRadius: 5,
     fontSize: 18,
     color: "#BD8904",
     textAlign: "center",
+    overflow: "hidden",
   },
   taskInfoInput: {
     marginTop: "5%",
@@ -274,10 +318,11 @@ const styles = StyleSheet.create({
     height: hp("15%"),
     color: "#fff",
     backgroundColor: "#3A3737",
-    borderRadius: 15,
+    borderRadius: 5,
     fontSize: 18,
     color: "#BD8904",
     textAlign: "center",
+    overflow: "hidden",
   },
 });
 

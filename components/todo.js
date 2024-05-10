@@ -13,6 +13,7 @@ import Pinned from "../assets/PinnedIcon.js";
 import UnPinned from "../assets/UnpinnedIcon.js";
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 import notifee from "@notifee/react-native";
+import SmallLockIcon from "../assets/smallLockIcon.js";
 
 const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
@@ -77,22 +78,46 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
-        <Pressable onPress={handlePinPress}>
-          {todoo.is_pinned ? (
-            <Pinned
+        <View style={styles.iconContainer}>
+          <Pressable onPress={handlePinPress}>
+            {todoo.is_pinned ? (
+              <Pinned
+                themeColor={themeColor}
+                containerStyle={styles.pin}
+                style={styles.pin}
+              />
+            ) : (
+              <UnPinned
+                themeColor={themeColor}
+                containerStyle={styles.pin}
+                style={styles.pin}
+              />
+            )}
+          </Pressable>
+
+          {todoo.is_daily ? (
+            <SmallLockIcon
               themeColor={themeColor}
-              containerStyle={styles.pin}
-              style={styles.pin}
+              style={[styles.lockIcon]}
+              containerStyle={styles.lockIcon}
             />
           ) : (
-            <UnPinned
-              themeColor={themeColor}
-              containerStyle={styles.pin}
-              style={styles.pin}
-            />
+            <></>
           )}
-        </Pressable>
-        <Text style={[styles.text, { color: themeColor }]}>{todoo.title}</Text>
+        </View>
+
+        <Text
+          style={[
+            styles.text,
+            { color: themeColor },
+            todoo.is_completed ? styles.completedText : null,
+          ]}
+        >
+          {todoo.title.length > 25
+            ? todoo.title.substring(0, 25) + "..."
+            : todoo.title}
+        </Text>
+
         <Pressable onPress={handleCompletePress}>
           {todoo.is_completed ? (
             <CompleteCheck
@@ -140,6 +165,20 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontFamily: "Inter_500Medium",
+  },
+  completedText: {
+    textDecorationLine: "line-through",
+  },
+  lockIcon: {
+    width: wp("5%"),
+    height: hp("6%"),
+    marginLeft: wp("15%"),
+  },
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    minWidth: wp("15%"),
+    justifyContent: "space-between",
   },
 });
 

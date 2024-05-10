@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Settings from "./components/settings";
 import { Appearance, useColorScheme } from "react-native";
@@ -37,8 +37,7 @@ export default function App() {
   const [themeColor, setThemeColor] = useState(getData());
 
   const db = SQLite.openDatabase("todo.db");
-  // db.closeAsync();
-  // db.deleteAsync();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isViewingSettings, setIsViewingSettings] = useState(false);
   const [todoOpen, setTodoOpen] = useState(null);
@@ -61,12 +60,13 @@ export default function App() {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO todos (title,  description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO todos (title,  description, is_completed, is_pinned, is_daily) VALUES (?, ?, ?, ?, ?)`,
         [
           newTodo.title,
           newTodo.description,
           newTodo.isCompleted,
           newTodo.isPinned,
+          newTodo.isDaily,
         ],
         (txtObj, resultSet) => {
           //let existingTodos = [...todos];
@@ -76,6 +76,7 @@ export default function App() {
             description: newTodo.description,
             is_completed: newTodo.isCompleted,
             is_pinned: newTodo.isPinned,
+            is_daily: newTodo.isDaily,
           };
           sortedTodosRef.current.push(newTodoItem);
           setTodos([...sortedTodosRef.current]);
@@ -122,12 +123,13 @@ export default function App() {
   const editTodo = (todo) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE todos SET title = ?, description = ?, is_completed = ?, is_pinned = ? WHERE id = ?",
+        "UPDATE todos SET title = ?, description = ?, is_completed = ?, is_pinned = ?, is_daily = ? WHERE id = ?",
         [
           todo.title,
           todo.description,
           +todo.is_completed,
           +todo.is_pinned,
+          +todo.is_daily,
           todo.id,
         ],
         () => {
@@ -138,6 +140,7 @@ export default function App() {
             description: todo.description,
             is_completed: +todo.is_completed,
             is_pinned: +todo.is_pinned,
+            is_daily: +todo.is_daily,
           };
         }
       );
@@ -151,13 +154,49 @@ export default function App() {
       return b.is_pinned - a.is_pinned || a.is_completed - b.is_completed;
     });
   }
+
+  function deleteCompleted() {
+    Alert.alert(
+      "Delete all completed todos",
+      "Are you sure you want to delete all completed & unlocked todos?",
+      [
+        {
+          text: "No",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          onPress: () => {
+            const completedTodoIds = todos
+              .filter((todo) => !todo.is_daily && todo.is_completed)
+              .map((todo) => todo.id);
+
+            db.transaction((tx) => {
+              tx.executeSql(
+                `DELETE FROM todos WHERE id IN (${completedTodoIds.join(",")})`,
+                [],
+                () => {
+                  const remainingTodos = todos.filter(
+                    (todo) => !completedTodoIds.includes(todo.id)
+                  );
+                  setTodos(remainingTodos);
+                },
+                (_, error) => console.log(error)
+              );
+            });
+          },
+        },
+      ]
+    );
+  }
+
   useEffect(() => {
     // db.transaction((tx) => {
     //   tx.executeSql("DROP TABLE IF EXISTS todos");
     // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed INT NOT NULL, is_pinned INT NOT NULL)"
+        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed INT NOT NULL, is_pinned INT NOT NULL, is_daily INT NOT NULL)"
       );
     });
 
@@ -179,6 +218,7 @@ export default function App() {
           themeColor={themeColor}
           setIsViewingSettings={setIsViewingSettings}
           isViewingSettings={isViewingSettings}
+          clearCompleted={deleteCompleted}
         />
         <TodoContainer
           todoOpen={todoOpen}
