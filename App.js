@@ -156,7 +156,7 @@ export default function App() {
     });
   }
 
-  function deleteComplete() {
+  function deleteCompleted() {
     currentTodos = todos;
     currentTodos.forEach((todo) => {
       if (!todo.is_daily && todo.is_completed) {
