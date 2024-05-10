@@ -14,6 +14,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import BackIcon from "../assets/BackIcon.js";
+import DeleteIcon from "../assets/DeleteIcon.js";
+import EditIcon from "../assets/EditIcon.js";
+import SaveIcon from "../assets/SaveIcon.js";
 
 const todoInfo = ({
   selectedTodo,
@@ -82,6 +86,7 @@ const todoInfo = ({
       <Animated.View
         style={{
           ...styles.addTodoContainer,
+          borderTopColor: themeColor,
           transform: [
             {
               translateY: animation.interpolate({
@@ -102,20 +107,23 @@ const todoInfo = ({
         </Text>
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
-            <Image
-              source={require("../assets/backIcon.svg")}
-              style={styles.backIcon}
+            <BackIcon
+              themeColor={themeColor}
+              containerStyle={styles.backIcon}
+              style={styles.backicon}
             />
           </Pressable>
           <Pressable onPress={handleDeletePress}>
-            <Image
-              source={require("../assets/deleteicon.svg")}
+            <DeleteIcon
+              themeColor={themeColor}
+              containerStyle={styles.deleteIcon}
               style={styles.deleteIcon}
             />
           </Pressable>
           <Pressable onPress={handleEditPress}>
-            <Image
-              source={require("../assets/editIcon.svg")}
+            <EditIcon
+              themeColor={themeColor}
+              containerStyle={styles.editIcon}
               style={styles.editIcon}
             />
           </Pressable>
@@ -154,21 +162,24 @@ const todoInfo = ({
         />
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
-            <Image
-              source={require("../assets/backIcon.svg")}
-              style={styles.backIcon}
+            <BackIcon
+              themeColor={themeColor}
+              containerStyle={styles.backIcon}
+              style={styles.backicon}
             />
           </Pressable>
           <Pressable onPress={handleDeletePress}>
-            <Image
-              source={require("../assets/deleteicon.svg")}
+            <DeleteIcon
+              themeColor={themeColor}
+              containerStyle={styles.deleteIcon}
               style={styles.deleteIcon}
             />
           </Pressable>
           <Pressable onPress={handleSaveChangesPress}>
-            <Image
-              source={require("../assets/saveIcon.svg")}
-              style={styles.editIcon}
+            <SaveIcon
+              themeColor={themeColor}
+              containerStyle={styles.saveIcon}
+              style={styles.saveIcon}
             />
           </Pressable>
         </View>
@@ -223,26 +234,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   deleteIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("15%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   editIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("15%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   backIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("16%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   saveIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("15%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },

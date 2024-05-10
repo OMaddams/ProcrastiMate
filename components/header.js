@@ -9,8 +9,6 @@ import {
 import Logo from "../assets/Logo.js";
 import SettingsIcon from "../assets/SettingsIcon.js";
 
-
-
 const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
   const handleSettingsPress = () => {
     setIsViewingSettings(!isViewingSettings);
@@ -25,12 +23,11 @@ const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
       </View>
 
       <Pressable onPress={handleSettingsPress}>
-       <SettingsIcon
-        themeColor={themeColor}
-        containerStyle={styles.settingsIcon}
-      />
+        <SettingsIcon
+          themeColor={themeColor}
+          containerStyle={styles.settingsIcon}
+        />
       </Pressable>
-
     </View>
   );
 };
@@ -60,8 +57,8 @@ const styles = StyleSheet.create({
   settingsIcon: {
     marginRight: wp("5%"),
     marginTop: hp("3"),
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("11%"),
+    height: hp("5.4%"),
   },
 });
 export default header;

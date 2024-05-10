@@ -13,6 +13,9 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import PlusIcon from "../assets/PlusIcon.js";
+import BackIcon from "../assets/BackIcon.js";
+import SaveIcon from "../assets/SaveIcon.js";
 const Footer = ({ addTodo, themeColor }) => {
   const [showComponent, setShowComponent] = useState(false);
 
@@ -30,10 +33,11 @@ const Footer = ({ addTodo, themeColor }) => {
               return { opacity: pressed ? 0.5 : 1 };
             }}
           >
-            <Image
+            {/* <Image
               source={require("../assets/plusIcon.png")}
               style={styles.image}
-            />
+            /> */}
+            <PlusIcon containerStyle={styles.image} themeColor={themeColor} />
           </Pressable>
         </View>
       )}
@@ -116,14 +120,16 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
       />
       <View style={styles.buttonContainer}>
         <Pressable onPress={handleBackPress}>
-          <Image
-            source={require("../assets/backIcon.svg")}
-            style={styles.backIcon}
+          <BackIcon
+            themeColor={themeColor}
+            containerStyle={styles.backIcon}
+            style={styles.backicon}
           />
         </Pressable>
         <Pressable onPress={handleSavePress}>
-          <Image
-            source={require("../assets/saveIcon.svg")}
+          <SaveIcon
+            themeColor={themeColor}
+            containerStyle={styles.saveIcon}
             style={styles.saveIcon}
           />
         </Pressable>
@@ -145,8 +151,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   image: {
-    height: hp("6.8%"),
-    width: wp("14%"),
+    height: hp("8%"),
+    width: wp("15%"),
   },
   addTodoContainer: {
     backgroundColor: "#252121",
@@ -186,14 +192,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   backIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("16%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },
   saveIcon: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("15%"),
+    height: hp("8%"),
     marginTop: hp("3%"),
     marginLeft: wp("5%"),
   },

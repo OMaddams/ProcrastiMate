@@ -7,7 +7,12 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
+import CompleteCheck from "../assets/completeCheck.js";
+import UncompleteIcon from "../assets/UncompleteIcon.js";
+import Pinned from "../assets/PinnedIcon.js";
+import UnPinned from "../assets/UnpinnedIcon.js";
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
+import notifee from "@notifee/react-native";
 
 const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
@@ -28,6 +33,11 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
 
   function handlePinPress() {
     const currentState = isPinned;
+    if (currentState) {
+      cancel().catch((e) => console.log(e));
+    } else {
+      onDisplayNotification();
+    }
     setIsPinned(!currentState);
     todoo.is_pinned = !currentState;
     editTodo(todoo);
@@ -40,29 +50,63 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
     editTodo(todoo);
   }
 
+  async function onDisplayNotification() {
+    await notifee.requestPermission();
+    const channelId = await notifee.createChannel({
+      id: "default",
+      name: "Default Channel",
+    });
+    console.log("test notification");
+
+    await notifee.displayNotification({
+      id: `${todoo.id}`,
+      title: "Todo",
+      body: todoo.title,
+      android: {
+        channelId,
+        ongoing: true,
+        autoCancel: false,
+      },
+    });
+  }
+
+  async function cancel() {
+    await notifee.cancelNotification(`${todoo.id}`);
+  }
+
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
-        <Pressable onPress={() => handlePinPress()}>
-          <Image
-            style={styles.pin}
-            source={
-              +todoo.is_pinned == true
-                ? require("../assets/pinned.svg")
-                : require("../assets/unPinned.svg")
-            }
-          />
+        <Pressable onPress={handlePinPress}>
+          {todoo.is_pinned ? (
+            <Pinned
+              themeColor={themeColor}
+              containerStyle={styles.pin}
+              style={styles.pin}
+            />
+          ) : (
+            <UnPinned
+              themeColor={themeColor}
+              containerStyle={styles.pin}
+              style={styles.pin}
+            />
+          )}
         </Pressable>
         <Text style={[styles.text, { color: themeColor }]}>{todoo.title}</Text>
-        <Pressable onPress={() => handleCompletePress()}>
-          <Image
-            style={styles.checkmark}
-            source={
-              +todoo.is_completed == true
-                ? require("../assets/completeCheck.svg")
-                : require("../assets/uncompleteCheck.svg")
-            }
-          />
+        <Pressable onPress={handleCompletePress}>
+          {todoo.is_completed ? (
+            <CompleteCheck
+              themeColor={themeColor}
+              containerStyle={styles.checkmark}
+              style={styles.checkmark}
+            />
+          ) : (
+            <UncompleteIcon
+              themeColor={themeColor}
+              containerStyle={styles.checkmark}
+              style={styles.checkmark}
+            />
+          )}
         </Pressable>
       </View>
     </Pressable>
@@ -72,7 +116,7 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#3A3737",
-    minHeight: 60,
+    minHeight: 65,
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -86,12 +130,12 @@ const styles = StyleSheet.create({
     marginTop: hp("2%"),
   },
   pin: {
-    width: wp("7%"),
+    width: wp("10%"),
     height: hp("5%"),
   },
   checkmark: {
-    width: wp("10%"),
-    height: hp("5%"),
+    width: wp("14%"),
+    height: hp("7%"),
   },
   text: {
     fontSize: 18,
