@@ -61,12 +61,13 @@ export default function App() {
     //setTodos([...todos, newTodo]);
     db.transaction((tx) => {
       tx.executeSql(
-        `INSERT INTO todos (title,  description, is_completed,is_pinned) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO todos (title,  description, is_completed, is_pinned, is_daily) VALUES (?, ?, ?, ?, ?)`,
         [
           newTodo.title,
           newTodo.description,
           newTodo.isCompleted,
           newTodo.isPinned,
+          newTodo.isDaily,
         ],
         (txtObj, resultSet) => {
           //let existingTodos = [...todos];
@@ -76,6 +77,7 @@ export default function App() {
             description: newTodo.description,
             is_completed: newTodo.isCompleted,
             is_pinned: newTodo.isPinned,
+            is_daily: newTodo.isDaily,
           };
           sortedTodosRef.current.push(newTodoItem);
           setTodos([...sortedTodosRef.current]);
@@ -122,12 +124,13 @@ export default function App() {
   const editTodo = (todo) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE todos SET title = ?, description = ?, is_completed = ?, is_pinned = ? WHERE id = ?",
+        "UPDATE todos SET title = ?, description = ?, is_completed = ?, is_pinned = ?, is_daily = ? WHERE id = ?",
         [
           todo.title,
           todo.description,
           +todo.is_completed,
           +todo.is_pinned,
+          +todo.is_daily,
           todo.id,
         ],
         () => {
@@ -138,6 +141,7 @@ export default function App() {
             description: todo.description,
             is_completed: +todo.is_completed,
             is_pinned: +todo.is_pinned,
+            is_daily: +todo.is_daily,
           };
         }
       );
@@ -157,7 +161,7 @@ export default function App() {
     // });
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed INT NOT NULL, is_pinned INT NOT NULL)"
+        "CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, is_completed INT NOT NULL, is_pinned INT NOT NULL, is_daily INT NOT NULL)"
       );
     });
 

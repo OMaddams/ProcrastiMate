@@ -85,6 +85,7 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
       description: taskInfo,
       isCompleted: 0,
       isPinned: 0,
+      isDaily: 0,
     };
 
     addTodo(newTodo);
