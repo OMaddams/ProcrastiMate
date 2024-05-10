@@ -6,48 +6,39 @@ import {
 } from "react-native-responsive-screen";
 
 const Settings = ({ setThemeColor, themeColor, storeData }) => {
+  const colors = [
+    { name: "Red", hex: "#FF6347" },
+    { name: "Blue", hex: "#6495ED" },
+    { name: "Green", hex: "#32CD32" },
+    { name: "Yellow", hex: "#BD8904" },
+    { name: "Purple", hex: "#A020F0" },
+    { name: "White", hex: "#FFFFFF" },
+    { name: "VeryYellow", hex: "#ffff00" },
+    { name: "Cyan", hex: "#00FFFF" },
+    { name: "Magenta", hex: "#FF00FF" },
+    { name: "Lime", hex: "#00FF00" },
+    { name: "DarkGreen", hex: "#003300" },
+    { name: "DarkRed", hex: "#cc0000" },
+  ];
+
   const storeThemeColor = (color) => {
     setThemeColor(color);
     storeData(color);
   };
-  const handleBluePress = () => {
-    storeThemeColor("#6495ED");
-  };
-  const handleRedPress = () => {
-    storeThemeColor("#FF6347");
+
+  const handleColorPress = (color) => {
+    storeThemeColor(color);
   };
 
-  const handleGreenPress = () => {
-    storeThemeColor("#32CD32");
-  };
-
-  const handleYellowPress = () => {
-    storeThemeColor("#BD8904");
-  };
-
-  const handlePurplePress = () => {
-    storeThemeColor("#A020F0");
-  };
   return (
     <View style={styles.container}>
-      {/* Add the settings content here */}
       <Text style={[styles.text, { color: themeColor }]}>Pick Your Theme</Text>
       <View style={styles.boxContainer}>
-        <Pressable onPress={handleRedPress}>
-          <View style={[styles.box, { backgroundColor: "#FF6347" }]} />
-        </Pressable>
-        <Pressable onPress={handleBluePress}>
-          <View style={[styles.box, { backgroundColor: "#6495ED" }]} />
-        </Pressable>
-        <Pressable onPress={handleGreenPress}>
-          <View style={[styles.box, { backgroundColor: "#32CD32" }]} />
-        </Pressable>
-        <Pressable onPress={handleYellowPress}>
-          <View style={[styles.box, { backgroundColor: "#BD8904" }]} />
-        </Pressable>
-        <Pressable onPress={handlePurplePress}>
-          <View style={[styles.box, { backgroundColor: "#A020F0" }]} />
-        </Pressable>
+        {colors.map((color, index) => (
+          <Pressable key={index} onPress={() => handleColorPress(color.hex)}>
+            <View style={[styles.box, { backgroundColor: color.hex }]} />
+          </Pressable>
+        ))}
       </View>
     </View>
   );
@@ -57,17 +48,19 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#252121",
     width: "100%",
-    flexDirection: "row",
     flexDirection: "column",
     alignItems: "center",
   },
   boxContainer: {
     flexDirection: "row",
+    flexWrap: "wrap",
+    width: wp("50%"),
   },
   box: {
     width: 65,
     height: 65,
     marginRight: 10,
+    marginBottom: 5,
   },
   text: {
     width: wp("50%"),
