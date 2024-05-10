@@ -171,17 +171,39 @@ export default function App() {
               .filter((todo) => !todo.is_daily && todo.is_completed)
               .map((todo) => todo.id);
 
+            const dailyCompletedTodoIds = todos
+              .filter((todo) => todo.is_daily && todo.is_completed)
+              .map((todo) => todo.id);
+
             db.transaction((tx) => {
               tx.executeSql(
                 `DELETE FROM todos WHERE id IN (${completedTodoIds.join(",")})`,
                 [],
                 () => {
-                  const remainingTodos = todos.filter(
-                    (todo) => !completedTodoIds.includes(todo.id)
-                  );
-                  setTodos(remainingTodos);
+                  // const remainingTodos = todos.filter(
+                  //   (todo) => !completedTodoIds.includes(todo.id)
+                  // );
+                  // setTodos(remainingTodos);
                 },
                 (_, error) => console.log(error)
+              );
+            });
+
+            db.transaction((tx) => {
+              tx.executeSql(
+                `UPDATE todos SET is_completed = 0 WHERE id IN (${dailyCompletedTodoIds.join(
+                  ","
+                )})`,
+                []
+              );
+            });
+
+            db.transaction((tx) => {
+              tx.executeSql(
+                "SELECT * FROM todos ORDER BY is_pinned DESC, is_completed ASC",
+                null,
+                (txtObj, resultSet) => setTodos(resultSet.rows._array),
+                (txtObj, error) => console.log(error)
               );
             });
           },
