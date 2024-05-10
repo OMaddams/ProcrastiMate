@@ -92,7 +92,12 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
             />
           )}
         </Pressable>
-        <Text style={[styles.text, { color: themeColor }]}>{todoo.title}</Text>
+        <Text style={[styles.text, { color: themeColor }]}>
+          {todoo.title.length > 25
+            ? todoo.title.substring(0, 25) + "..."
+            : todoo.title}
+        </Text>
+
         <Pressable onPress={handleCompletePress}>
           {todoo.is_completed ? (
             <CompleteCheck

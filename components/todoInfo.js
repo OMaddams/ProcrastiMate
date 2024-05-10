@@ -152,6 +152,8 @@ const todoInfo = ({
           style={[styles.titleInput, { color: themeColor }]}
           onChangeText={setTitle}
           defaultValue={selectedTodo.title}
+          multiline={true}
+          numberOfLines={2}
         />
         <Text style={[styles.title, { color: themeColor }]}>Task Info:</Text>
         <TextInput
@@ -159,6 +161,8 @@ const todoInfo = ({
           style={[styles.taskInfoInput, { color: themeColor }]}
           onChangeText={setInfo}
           defaultValue={selectedTodo.description}
+          multiline={true}
+          numberOfLines={4}
         />
         <View style={styles.buttonContainer}>
           <Pressable onPress={handleBackPress}>
@@ -217,12 +221,16 @@ const styles = StyleSheet.create({
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
+    marginRight: wp("10%"),
+    marginLeft: wp("10%"),
   },
   todoInfo: {
     fontSize: 24,
     marginTop: "5%",
     minWidth: wp("80%"),
     textAlign: "center",
+    marginRight: wp("10%"),
+    marginLeft: wp("10%"),
   },
   title: {
     fontSize: 24,
@@ -232,6 +240,8 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
+
+    marginTop: hp("30%"),
   },
   deleteIcon: {
     width: wp("15%"),
@@ -267,6 +277,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#BD8904",
     textAlign: "center",
+    overflow: "hidden",
   },
   taskInfoInput: {
     marginTop: "5%",
@@ -278,6 +289,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#BD8904",
     textAlign: "center",
+    overflow: "hidden",
   },
 });
 

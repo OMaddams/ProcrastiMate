@@ -112,12 +112,16 @@ const AddTodoWindow = ({ setShowComponent, addTodo, themeColor }) => {
         value={taskTitle}
         style={[styles.titleInput, { color: themeColor }]}
         onChangeText={setTitle}
+        multiline={true}
+        numberOfLines={2}
       />
       <Text style={[styles.title, { color: themeColor }]}>Task Info</Text>
       <TextInput
         value={taskInfo}
         style={[styles.taskInfoInput, { color: themeColor }]}
         onChangeText={setInfo}
+        multiline={true}
+        numberOfLines={4}
       />
       <View style={styles.buttonContainer}>
         <Pressable onPress={handleBackPress}>
@@ -172,6 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     fontSize: 18,
     textAlign: "center",
+    overflow: "hidden",
   },
   taskInfoInput: {
     marginTop: "5%",
@@ -182,6 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     fontSize: 18,
     textAlign: "center",
+    overflow: "hidden",
   },
   title: {
     fontSize: 24,
