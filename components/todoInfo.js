@@ -18,7 +18,8 @@ import BackIcon from "../assets/BackIcon.js";
 import DeleteIcon from "../assets/DeleteIcon.js";
 import EditIcon from "../assets/EditIcon.js";
 import SaveIcon from "../assets/SaveIcon.js";
-
+import LockIcon from "../assets/LockIcon.js";
+import UnlockIcon from "../assets/unlockIcon.js";
 const todoInfo = ({
   selectedTodo,
   deleteTodo,
@@ -74,6 +75,18 @@ const todoInfo = ({
     setIsEditing(true);
   };
 
+  const handleLockPress = () => {
+    if (selectedTodo.is_daily) {
+      selectedTodo.is_daily = false;
+      console.log(selectedTodo);
+      editTodo(selectedTodo);
+    } else {
+      selectedTodo.is_daily = true;
+      console.log(selectedTodo);
+      editTodo(selectedTodo);
+    }
+  };
+
   const handleSaveChangesPress = () => {
     selectedTodo.title = newTaskTitle;
     selectedTodo.description = newTaskInfo;
@@ -126,6 +139,22 @@ const todoInfo = ({
               containerStyle={styles.editIcon}
               style={styles.editIcon}
             />
+          </Pressable>
+
+          <Pressable onPress={handleLockPress}>
+            {selectedTodo.is_daily ? (
+              <LockIcon
+                themeColor={themeColor}
+                style={styles.lockIcon}
+                containerStyle={styles.lockIcon}
+              />
+            ) : (
+              <UnlockIcon
+                themeColor={themeColor}
+                style={styles.lockIcon}
+                containerStyle={styles.lockIcon}
+              />
+            )}
           </Pressable>
         </View>
       </Animated.View>
@@ -240,8 +269,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-
-    marginTop: hp("30%"),
   },
   deleteIcon: {
     width: wp("15%"),
@@ -262,6 +289,12 @@ const styles = StyleSheet.create({
     marginLeft: wp("5%"),
   },
   saveIcon: {
+    width: wp("15%"),
+    height: hp("8%"),
+    marginTop: hp("3%"),
+    marginLeft: wp("5%"),
+  },
+  lockIcon: {
     width: wp("15%"),
     height: hp("8%"),
     marginTop: hp("3%"),

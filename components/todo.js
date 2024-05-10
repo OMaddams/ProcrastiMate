@@ -13,6 +13,7 @@ import Pinned from "../assets/PinnedIcon.js";
 import UnPinned from "../assets/UnpinnedIcon.js";
 import { useFonts, Inter_500Medium } from "@expo-google-fonts/inter";
 import notifee from "@notifee/react-native";
+import LockIcon from "../assets/LockIcon.js";
 
 const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   const [isComplete, setIsComplete] = useState(todoo.is_completed);
@@ -77,21 +78,33 @@ const todo = ({ todoo, setTodoOpen, editTodo, themeColor }) => {
   return (
     <Pressable onPress={() => handleOpenPress()}>
       <View style={styles.container}>
-        <Pressable onPress={handlePinPress}>
-          {todoo.is_pinned ? (
-            <Pinned
+        <View style={styles.iconContainer}>
+          <Pressable onPress={handlePinPress}>
+            {todoo.is_pinned ? (
+              <Pinned
+                themeColor={themeColor}
+                containerStyle={styles.pin}
+                style={styles.pin}
+              />
+            ) : (
+              <UnPinned
+                themeColor={themeColor}
+                containerStyle={styles.pin}
+                style={styles.pin}
+              />
+            )}
+          </Pressable>
+          {todoo.is_daily ? (
+            <LockIcon
               themeColor={themeColor}
-              containerStyle={styles.pin}
-              style={styles.pin}
+              style={styles.lockIcon}
+              containerStyle={styles.lockIcon}
             />
           ) : (
-            <UnPinned
-              themeColor={themeColor}
-              containerStyle={styles.pin}
-              style={styles.pin}
-            />
+            <></>
           )}
-        </Pressable>
+        </View>
+
         <Text
           style={[
             styles.text,
@@ -154,6 +167,17 @@ const styles = StyleSheet.create({
   },
   completedText: {
     textDecorationLine: "line-through",
+  },
+  lockIcon: {
+    width: wp("10%"),
+    height: hp("6%"),
+    marginLeft: wp("2%"),
+  },
+  iconContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
