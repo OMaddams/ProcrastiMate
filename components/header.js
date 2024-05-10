@@ -10,7 +10,12 @@ import Logo from "../assets/Logo.js";
 import SettingsIcon from "../assets/SettingsIcon.js";
 import TrashIcon from "../assets/TrashIconv2.js";
 
-const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
+const header = ({
+  themeColor,
+  setIsViewingSettings,
+  isViewingSettings,
+  clearCompleted,
+}) => {
   const handleSettingsPress = () => {
     setIsViewingSettings(!isViewingSettings);
     console.log(isViewingSettings);
@@ -19,7 +24,7 @@ const header = ({ themeColor, setIsViewingSettings, isViewingSettings }) => {
   return (
     <View style={[styles.mainContainer, { borderBottomColor: themeColor }]}>
       <View style={[styles.container, { borderBottomColor: themeColor }]}>
-        <Pressable>
+        <Pressable onPress={clearCompleted}>
           <TrashIcon
             themeColor={themeColor}
             containerStyle={styles.trashIcon}
@@ -55,6 +60,7 @@ const styles = StyleSheet.create({
     display: "flex",
     borderBottomWidth: 2,
     paddingHorizontal: wp("5%"),
+    alignItems: "center",
   },
   logoContainer: {
     flex: 1,
@@ -72,6 +78,6 @@ const styles = StyleSheet.create({
     width: wp("11%"),
     height: hp("5.4%"),
   },
-  trashIcon: {},
+  trashIcon: { marginTop: hp("4%") },
 });
 export default header;

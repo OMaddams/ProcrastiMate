@@ -193,6 +193,7 @@ export default function App() {
           themeColor={themeColor}
           setIsViewingSettings={setIsViewingSettings}
           isViewingSettings={isViewingSettings}
+          clearCompleted={deleteCompleted}
         />
         <TodoContainer
           todoOpen={todoOpen}
